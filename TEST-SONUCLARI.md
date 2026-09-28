@@ -1,12 +1,13 @@
 # Test sonuçları
 
-28 Eylül 2026 · Python 3.13 · Node.js 20
+28 Eylül 2026 · Python 3.13 · Node.js 20 · Her push'ta GitHub Actions ile tekrar çalışır. Temiz klonda README adımları ayrıca denendi.
 
 ## Otomatik testler
 
 | Kontrol | Sonuç | Komut |
 |---|---|---|
-| A: birim testleri | 19 / 19 | `python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v` |
+| A: birim testleri | 21 / 21 | `python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v` |
+| A: sınıflandırma, 45 ek mesaj | 45 / 45 (kör ölçüm: 19/30 ve 10/15) | `python3 A-mesaj-otomasyonu/degerlendir.py` |
 | A: canlı DummyJSON | 15 mesaj, 5 devir | `python3 A-mesaj-otomasyonu/main.py` |
 | B: workflow mantık ve yapı testleri | 17 / 17 | `cd B-n8n && npm test` |
 | B: canlı site taraması | 20 sayfa, 117 ürün | `cd B-n8n && npm run test:live` → `live-check.json` |
