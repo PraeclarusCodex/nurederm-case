@@ -1,26 +1,30 @@
-# Doğrulama sonuçları
+# Test sonuçları
 
-28 Eylül 2026 tarihinde Python 3.13 ve Node.js 20.20.2 ile kontrol edildi.
+28 Eylül 2026 · Python 3.13 · Node.js 20
 
-| Kontrol | Sonuç | Kanıt / kapsam |
+## Otomatik testler
+
+| Kontrol | Sonuç | Komut |
 |---|---|---|
-| Python testleri | 19 / 19 geçti (3 bonus arama testi dahil) | `python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v` |
-| A canlı DummyJSON | 15 çıktı / 5 devir | `A-mesaj-otomasyonu/talepler.json` |
-| n8n kod ve yapı testleri | 12 / 12 geçti | `cd B-n8n && npm test` |
-| Canlı HTML taraması | 20 sayfa / 117 ürün | `B-n8n/live-check.json` |
-| Aynı snapshot'ı tekrar işleme | 0 değişiklik | Canlı HTML üzerinde Code node testi |
-| Simüle tek fiyat değişimi | 1 değişiklik | Canlı HTML kopyasında tek fiyat değiştirilerek |
-| n8n uygulamasına import | Yapılmadı | JSON yapı ve referansları kontrol edildi; uygulama kabulü sınanmadı |
-| n8n motorunda yürütme | Yapılmadı | Code mantık testleri uçtan uca n8n testi değildir |
-| Gerçek CSV node / SMTP gönderimi | Yapılmadı | Kullanıcı kurulumunda doğrulanmalı |
-| HTML görsel kontrolü | Engellendi | Tarayıcı yönetici güvenlik kontrolünü doğrulayamadı |
+| A: birim testleri | 19 / 19 | `python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v` |
+| A: canlı DummyJSON | 15 mesaj, 5 devir | `python3 A-mesaj-otomasyonu/main.py` |
+| B: workflow mantık ve yapı testleri | 17 / 17 | `cd B-n8n && npm test` |
+| B: canlı site taraması | 20 sayfa, 117 ürün | `cd B-n8n && npm run test:live` → `live-check.json` |
 
-A testleri: verilen 15 mesajın konusu, hassas öncelik, sahiplik sızıntısı, ürünlere erişmeden önce sahip kontrolü, geçerli sipariş, bulunamama, bağlantı hatası, eksik/çoklu/ölçü birimli numara, Türkçe/İngilizce numara, çoklu niyet, İngilizce cevap, bozuk API alanları, HTML kaçışlama, girdi doğrulama, 404 önbelleği ve sınırlı tekrar.
+**A testlerinin kapsamı:** verilen 15 mesajın konuları, hassas konunun siparişten önce gelmesi, başka müşterinin sipariş bilgisinin sızmaması, ürünlere bakmadan önce sahiplik kontrolü, geçerli sipariş, bulunamayan sipariş, bağlantı hatası, eksik/çoklu/birimli numara, Türkçe ve İngilizce numara çıkarma, çoklu niyet, bozuk API alanları, HTML kaçışlama, girdi doğrulama, 404 önbelleği, sınırlı tekrar, ürün arama bonusu (kategori/başlık filtresi, eşleşme yok, API hatası, hassas mesajda arama yapılmaması).
 
-B testleri: son sayfanın keşfi, bozuk sayfalama, HTML seçicileri, ilk/aynı/değişen snapshot, kısmi/boş/yinelenen/bozuk ürünler, binlik ayıracı, kuruşsuz fiyat, CSV formül kaçışlama, yalnızca son adımda durum kaydı, düğüm bağlantıları ve hata yolları.
+**B testlerinin kapsamı:** son sayfanın bulunması, bozuk sayfalama, HTML seçicileri, ilk/aynı/değişen snapshot, kısmi/boş/yinelenen/bozuk ürün, binlik ayıracı ve kuruşsuz fiyat, CSV formül kaçışlama, durumun yalnızca en sonda kaydedilmesi, Data Table satır doğrulaması, düğüm bağlantıları ve hata yolları.
 
-Başarısız ilk denemeler `promptlar/surec-notu.md` içinde saklanmıştır. Otomatik test başarısı, görülmemiş tüm girdiler veya kurulmamış dış servisler için kusursuzluk garantisi değildir.
+## Canlı n8n doğrulaması (n8n web)
 
-## Kullanıcıyla canlı kontrol ve web uyarlaması
+| Kontrol | Sonuç |
+|---|---|
+| Data Table kaydı | 117 satır; price ve reviews sayısal |
+| Verify saved rows | 117 satırın sayısı, URL'si, alanları ve türleri doğrulandı |
+| CSV | `laptops.csv`, 117 satır |
+| 1. zamanlanmış çalışma (11:18) | Başarılı; 117 yeni ürün, bildirim e-postası alındı |
+| 2. zamanlanmış çalışma (11:20) | Başarılı; 0 değişiklik, e-posta gönderilmedi |
+| Hata senaryosu (11:26) | Ayrı kopyada erişilemeyen adres: `getaddrinfo ENOTFOUND` hata e-postası alındı, çalışma başarısız işaretlendi |
+| Son dışa aktarım | `0 9 * * *`, Europe/Istanbul |
 
-Kullanıcının sonraki ekran görüntüleri import, 20 sayfa ve 117 satırlık CSV üretimini doğruladı; önceki tabloda bu adımlara ilişkin “yapılmadı” kaydı ilk hazırlık anını anlatır. Disk kaydı eksik klasör hatası verdi. `workflow-web.json` için 5 ek yerel test geçti; ardından canlı Data Table/SMTP, zamanlanmış kalıcılık ve hata bildirimi de kullanıcı ortamında doğrulandı; ayrıntılar yukarıdaki canlı test kaydındadır.
+Fiyat değişikliği bildirimi canlıda beklenmedi. Bu durum yerel testte tek fiyat değiştirilerek simüle edildi ve 1 değişiklik yakalandı.

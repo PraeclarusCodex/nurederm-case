@@ -1,8 +1,8 @@
-# Süreç notu — araç denemeleri, kararlar ve hatalar
+# Süreç notu — kararlar, hatalar ve çözümler
 
-Bu belge bir çalışma özetidir; tam sohbet transkripti veya kullanıcı tarafından yazılmış ek promptlar değildir. Başarısız denemeler aşağıda saklanmıştır. Hiçbir geçmiş prompt sonradan uydurulmadı; alt ajan kullanılmadı.
+Çalışma sırasında yapay zekâ aracının attığı adımların ve karşılaşılan hataların kronolojik özeti. Promptların kendisi `codex-tam-prompt-dokumu.md` dosyasında.
 
-1. Kullanıcının tek isteği ve iki ek dosya okundu. Synced `sources/` alanına dokunulmadı; `nurederm-case/` altında yeni dosyalar oluşturuldu.
+1. Brief ve `mesajlar.json` okundu; görev A ve B olarak ikiye ayrıldı.
 2. DummyJSON ve Web Scraper kaynakları, n8n şablon kütüphanesi ve resmî düğüm kaynak kodları araştırıldı. #837 şablonunun gerçek JSON'u indirilip düğümleri incelendi.
 3. İlk Python HTTPS istekleri makinenin varsayılan sertifika deposu eksik olduğu için başarısız oldu. TLS doğrulaması kapatılmadı; certifi CA paketi kullanıldı.
 4. İlk Python DummyJSON çağrıları HTTP 403 döndürdü; curl çağrısı çalıştı. Açık bir User-Agent ve Accept başlığı taşıyan Python isteği başarılı oldu; istemci buna göre düzeltildi.
@@ -16,6 +16,7 @@ Bu belge bir çalışma özetidir; tam sohbet transkripti veya kullanıcı taraf
 12. İlk B mantık testlerinin 11'i geçti. Ardından canlı 20 sayfa okundu. Üçüncü sayfada `$399` ve `$679` biçimleri görülünce iki ondalık zorunluluğu nedeniyle doğrulama hata verdi. Kuruşsuz fiyatlar desteklendi ve regresyon testi eklendi. 12 B testi geçti.
 13. Aynı 20 canlı HTML sayfasıyla toplam 117 ürün çıkarıldı. İlk çalışmada 117 yeni ürün, aynı veriyle ikinci çalışmada 0 değişiklik ve tek fiyatı değiştiren simülasyonda 1 değişiklik doğrulandı.
 14. HTML paneli için yerel önizleme açılmaya çalışıldı. Tarayıcı yönetici güvenlik politikasını doğrulayamadığı için erişimi engelledi. Denetim aşılmadı; screenshot veya görsel QA yapıldığı iddia edilmedi.
-15. README, akış açıklaması, kaynak kaydı, test kapsamı, prompt dosyaları ve görüşme rehberi hazırlandı. n8n canlı yürütme/SMTP, GitHub yayını ve teslim e-postası yapılmadı.
-
-16. Kullanıcı n8n import, veri çekme ve CSV üretimini ekran görüntüleriyle doğruladı. Disk yazımı eksik klasör hatası verdi. Kullanıcı yalnızca web sayfasından eriştiğini söyledi; disk bağımlılığı olmayan Data Table varyantı ve beş doğrulama testi hazırlandı. Canlı tablo yazımı o anda henüz yapılmamıştı; sonradan yapıldı (bkz. `B-n8n/CANLI-TESTLER.md`).
+15. README, akış açıklaması, şablon kaynak kaydı ve test dokümanları hazırlandı.
+16. n8n'e import edildi; 20 sayfa tarama ve 117 satırlık CSV çalıştı. Disk yazımı `The file or directory does not exist` hatası verdi: n8n web sürümünde sunucu diski yok. Disk yerine Data Table kullanan sürüm ve 5 ek test hazırlandı.
+17. Data Table, Gmail SMTP, iki zamanlanmış çalışma ve ayrı bir kopyada erişilemeyen adresle hata e-postası canlı test edildi (bkz. `TEST-SONUCLARI.md`).
+18. Codex kullanım limiti doldu; Claude Code ile prompt dökümü çıkarıldı, ürün arama bonusu ve 3 testi eklendi, depo düzenlenip yayınlandı.

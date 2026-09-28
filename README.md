@@ -1,40 +1,56 @@
-# Nurederm — mesaj otomasyonu ve fiyat takibi
+# Nurederm Uygulama Görevi
 
-> **Önerilen n8n dosyası:** [workflow.json](B-n8n/workflow.json), canlı çalışan Data Table sürümünün kişisel bilgilerden arındırılmış kopyasıdır. [Kurulum](B-n8n/WEB-KURULUM.md) ve [canlı test kanıtları](B-n8n/CANLI-TESTLER.md). `workflow-local.json` önceki, sunucuda yazılabilir klasör gerektiren disk varyantıdır.
+Müşteri mesajı otomasyonu (Bölüm A) ve n8n ile günlük laptop fiyat takibi (Bölüm B).
 
-İki bölümün kodu, üretilmiş mesaj çıktıları, n8n tasarımı ve doğrulama testleri bu klasördedir. Müşteriye otomatik mesaj gönderilmez; cevaplar temsilci taslağıdır.
+| | |
+|---|---|
+| Görev e-postası | 28 Eylül 2026, 10:00 |
+| Başlangıç | 10:04 |
+| Teslim | 13:00'dan önce |
+| Yapay zekâ aracı | Codex (geliştirme, n8n kurulumu, testler) · Claude Code (Codex limiti dolunca: bonus, son kontroller, yayın) |
 
-## Hızlı başlangıç
+## Depo yapısı
 
-Python 3.10 veya üzeri ile depo kökünde:
-
-```sh
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 A-mesaj-otomasyonu/main.py
-python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v
+```
+A-mesaj-otomasyonu/   main.py · talepler.json · ozet.html · testler
+B-n8n/                workflow.json · akis-aciklama.md · ekran görüntüsü · mantık testleri
+promptlar/            yapay zekâ aracına yazılan tüm promptlar (sırasıyla, olduğu gibi)
+TEST-SONUCLARI.md     otomatik ve canlı test sonuçları
 ```
 
-Windows'ta etkinleştirme: `.venv\Scripts\activate`. Araç dosya yollarını kendi konumundan bulur. Alternatif girdi ve çıktı dizini için `--input dosya.json --output-dir ciktilar` kullanılabilir.
+## Nasıl çalıştırılır
 
-- [Mesaj paneli](A-mesaj-otomasyonu/ozet.html): tarayıcıda açılır; arama, konu filtresi ve yalnızca devirler seçeneği vardır.
-- [talepler.json](A-mesaj-otomasyonu/talepler.json): gerekli beş alanı taşıyan 15 sonuç.
-- [workflow.json](B-n8n/workflow.json): önerilen n8n import dosyası (20 düğüm). [Ekran görüntüsü](B-n8n/ekran-goruntusu-workflow.png).
-- [Akış kurulumu ve tasarım kararları](B-n8n/akis-aciklama.md).
-- [Test kanıtları ve sınırlar](TEST-SONUCLARI.md).
+**A: Python 3.10+**
 
-## A — müşteri mesajları
+```sh
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python3 A-mesaj-otomasyonu/main.py                          # talepler.json + ozet.html üretir, terminale özet basar
+python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v # 19 test
+```
 
-İşleyiş: girdi doğrulama → tek konu → hassas konu kontrolü → gerekiyorsa API → sahiplik kontrolü → cevap taslağı → JSON ve HTML özet.
+`--input` ve `--output-dir` ile farklı girdi ve çıktı konumu verilebilir. `ozet.html` tarayıcıda açılır. Sayfada konu filtresi, arama ve "yalnızca devredilenler" seçeneği var.
 
-Konu önceliği: **istenmeyen etki > iade/şikâyet > sipariş > fiyat > ürün > diğer**. Anahtar sözcüklere dayalı, Türkçe karakterleri normalize eden ve temel İngilizce sipariş sorularını destekleyen kurallar kullanıldı. Her metni anlayan bir dil modeli değildir. Üç saatlik görevde dış model hesabı gerektirmeyen, izlenebilir ve tekrarlanabilir davranış tercih edildi. Yapay zekâ kodlama/tasarım aşamasında kullanıldı; çalışma anında LLM çağrısı yapılmıyor.
+**B: n8n**
 
-Siparişin `userId` alanı, verilen `musteri_id` ile tam sayı olarak karşılaştırılır. Bu kontrol geçmeden ürün bilgisi veya tutar cevaba eklenmez. Eşleşmeyen siparişin sahibinin kimliği de çıktıya yazılmaz. Geçerli siparişte `products` ve `total` kullanılır. API para birimi, kargo firması veya teslim tarihi sağlamadığından bunlar uydurulmaz. Olmayan sipariş, bağlantı hatası, bozuk API yanıtı ve eksik/belirsiz numara temsilciye gider.
+`B-n8n/workflow.json` dosyası n8n'e import edilir. Kurulum adımları [akis-aciklama.md](B-n8n/akis-aciklama.md) içinde: Data Table, SMTP ve alıcı adresi. Akışın kod mantığı n8n olmadan da test edilebilir:
 
-API isteklerinde 10 saniye zaman aşımı, geçici hatalar için en fazla 3 deneme ve aynı işlem içindeki tekrar sorgular için önbellek bulunur. TLS doğrulaması açıktır. HTML'ye yazılan metinler kaçışlanır. Reklam mesajının taslağı boş bırakılır.
+```sh
+cd B-n8n && npm ci --ignore-scripts && npm test   # 17 test
+npm run test:live                                  # canlı sitede 20 sayfa / 117 ürün kontrolü
+```
 
-Verilen dosyada kararlar:
+## A — Müşteri mesajı otomasyonu
+
+Mesaj işleme sırası: girdi doğrulama → konu → hassas konu kontrolü → sipariş sorgusu ve sahiplik kontrolü → cevap taslağı → `talepler.json` + HTML özet.
+
+- **Konu ataması** kural tabanlı. Türkçe karakterler normalize edilir, temel İngilizce ifadeler de desteklenir. Öncelik sırası: istenmeyen etki > iade/şikâyet > sipariş > fiyat > ürün > diğer. Tercih nedeni: çalışırken dış bir model hesabı gerektirmemesi, açıklanabilir ve tekrarlanabilir olması.
+- **Hassas konular** (`iade-sikayet`, `istenmeyen-etki`) API'ye hiç gitmeden `devret: true` olur. Cevap yalnızca temsilciye yönlendirmedir. Ürün önerisi ya da teşhis üretilmez.
+- **Sipariş güvenliği:** `/carts/{id}` yanıtındaki `userId`, mesajın `musteri_id` değeriyle karşılaştırılır. Eşleşmezse ürün, tutar ve diğer müşterinin kimliği çıktıya hiç yazılmaz ve mesaj devredilir. Olmayan sipariş, bağlantı hatası, bozuk API verisi veya eksik/birden fazla sipariş numarası da temsilciye gider.
+- **Dayanıklılık:** 10 saniye zaman aşımı, geçici hatalarda en fazla 3 deneme, aynı sipariş için önbellek, HTML çıktısında kaçışlama. TLS doğrulaması açık.
+- **Bonus (ürün arama):** `urun-sorusu` ve `fiyat` mesajlarında `/products/search` ile arama yapılır. Türkçe terimler İngilizceye çevrilir (ör. nemlendirici → moisturizer/lotion). Yalnızca kozmetik kategorisinde olan ve başlığında aranan sözcük geçen ürünler taslağa eklenir. Böylece "cream" araması "Ice Cream" döndürse de o ürün taslağa girmez. Test mağazası genel bir mağaza olduğu için eşleşme sadece mesaj 10'da çıktı. Diğer mesajlarda ürün uydurulmaz, `not` alanına "eşleşme yok" yazılır.
+
+**Sonuç (canlı API ile):**
 
 | Konu | Adet |
 |---|---:|
@@ -44,50 +60,47 @@ Verilen dosyada kararlar:
 | iade-sikayet | 1 |
 | istenmeyen-etki | 1 |
 | diger | 1 |
+| **Devredilen** | **5** |
 
-Canlı API çalışmasında **5 devir** oluştu: mesaj 1 (sahiplik), 3 (bulunamadı), 4 (istenmeyen etki), 5 (iade), 12 (kargo sorusu/numara yok).
+Devredilen 5 mesaj: 1 (sipariş başka müşterinin), 3 (sipariş bulunamadı), 4 (istenmeyen etki), 5 (iade), 12 (sipariş numarası yok, kargo firması bilgisi API'de yok).
 
-- Mesaj 8 hem fiyat hem sipariş soruyor: sipariş konusu seçilir, ek fiyat isteği taslakta korunur.
-- Mesaj 12 genel bir kargo sorusu: `siparis-durumu` altında tutuldu; API taşıyıcı bilgisi vermediği için temsilciye yönlendirilir. Bu bir tasarım kararıdır.
-- Ürün içerikleri, hayvan testi politikası, cilt uygunluğu ve kampanya bilgisi için doğrulanmış marka kaynağı yoktur. İddia üretmek yerine tam ürün adı/bağlantısı istenir.
+Tasarım kararları:
+- Mesaj 8 hem fiyat hem sipariş soruyor. Konusu `siparis-durumu` oldu, fiyat sorusu da taslakta ele alındı.
+- Mesaj 7 reklam/spam. Konusu `diger`, cevap taslağı boş bırakıldı.
+- İçerik, cilt uygunluğu ve hayvan testi gibi sorular için doğrulanmış bir marka kaynağı yok. Bu yüzden iddia üretilmez, müşteriden ürünün tam adı istenir.
 
 ## B — n8n fiyat takibi
 
-Başlangıç şablonu: **[Track changes of product prices — #837](https://n8n.io/workflows/837-track-changes-of-product-prices/)**. Orijinal JSON incelendi; zamanlama, HTML'den fiyat okuma, önceki fiyatla karşılaştırma ve hata bildirimi düzeni bu senaryoya uyarlanarak yeniden kuruldu. Şablonun aynen çalıştırıldığı iddia edilmiyor.
+**Başlangıç şablonu:** [Track changes of product prices (#837)](https://n8n.io/workflows/837-track-changes-of-product-prices/)
 
-Akış her gün İstanbul saatiyle 09:00'da tüm laptop sayfalarını okur. Ürün adı, sayısal fiyat, yorum sayısı, link ve ISO tarih damgası içeren tarihli **Data Table kayıtları** ve indirilebilir CSV oluşturur. Yeni ürünleri ve her iki yöndeki fiyat değişikliklerini önceki başarılı çalışmayla karşılaştırır; tek e-posta özeti yollar. İlk çalışmada bütün ürünler yeni kabul edilir. Hatasız kaydetme ve gerekli bildirimin ardından karşılaştırma durumu güncellenir.
+Akış her gün 09:00'da (Europe/Istanbul) çalışır:
 
-**Import sonrasında kurulacaklar:** iki e-posta düğümünde SMTP credential, Configuration düğümünde gönderen/alıcı adresi, aynı projede altı sütunlu Data Table seçimi (Map Automatically). Sonra akış publish/active yapılır. Credential değerleri repoya konulmamıştır.
+1. Sayfalamadan son sayfa bulunur ve `?page=1..N` sayfalarının hepsi çekilir.
+2. Her sayfadan ürün adı, fiyat, yorum sayısı ve link alınır. Fiyat `$` ve binlik ayıracı temizlenerek sayıya çevrilir.
+3. Sonuç tarih damgasıyla **n8n Data Table**'a yazılır. Ayrıca indirilebilir bir CSV üretilir.
+4. Önceki başarılı çalışmayla karşılaştırılır. Yeni ürünler ve fiyatı değişenler tek bir e-postada bildirilir.
+5. Site açılmazsa, sayfa eksik gelirse, ürün çıkmazsa ya da tabloya yazılamazsa hata e-postası gider ve çalışma **başarısız** olarak işaretlenir.
 
-Bağımsız mantık testleri için Node.js 18.17+:
+Şablondan neyin değiştiği ve adım adım açıklama: [B-n8n/akis-aciklama.md](B-n8n/akis-aciklama.md).
 
-```sh
-cd B-n8n
-npm ci --ignore-scripts
-npm test
-npm run test:live
-```
+**Canlı olarak doğrulananlar** (n8n web): 117 satırın Data Table'a yazılması, CSV, Gmail SMTP ile bildirim, art arda iki zamanlanmış çalışma (117 yeni → 0 değişiklik), erişilemeyen bir adresle hata e-postası. Ekran görüntüsü: [B-n8n/ekran-goruntusu-workflow.png](B-n8n/ekran-goruntusu-workflow.png).
 
-Son komut siteyi canlı okur, e-posta göndermez. n8n motoru yerine kod ve HTML selector doğrulaması yapar. `code/` değişirse depo kökünden sırasıyla `python3 B-n8n/build_workflow.py` ve `python3 B-n8n/build_web_workflow.py` çalıştırın. Üretici kurulum bağlantıları boş bir şablon üretir; kullanıcıya özel export metadata içermez.
+## Nerede takıldım
 
-## Kapsam ve dürüst teslim notu
+- **Sertifika / 403:** Python HTTPS istekleri önce sertifika deposu eksikliğinden, sonra User-Agent olmadığı için 403 ile başarısız oldu. TLS doğrulamasını kapatmadan `certifi` ve açık başlıklarla çözdüm.
+- **Fiyat biçimi:** Canlı sitenin 3. sayfasında `$399` gibi kuruşsuz fiyatlar çıktı ve doğrulama hata verdi. Regex'i genişletip regresyon testi ekledim.
+- **Sipariş numarası:** "200 ml" ifadesindeki 200 sipariş numarası sanıldı. Birim ve para birimi son eklerini filtreledim.
+- **n8n disk yazımı:** İlk sürüm CSV'yi sunucu diskine yazıyordu. n8n web'de `The file or directory does not exist` hatası aldım ve kayıt yöntemini Data Table'a çevirdim. İlk sürüm `B-n8n/workflow-local.json` olarak duruyor.
 
-- **Yapıldı:** A'nın gerçek API ile çalışması, 15 çıktı, tek sayfalık HTML uygulaması; B'nin 20 düğümlü web JSON tasarımı, şablon kaynağı, tüm sayfaların gerçek HTML ile kontrolü, testler ve açıklamalar.
-- **Doğrulandı:** 19 Python testi + 17 workflow mantık/yapı testi. Canlı sitede 20 sayfa / 117 ürün; aynı veriyle 0 değişiklik; bir simüle fiyat değişikliğinde 1 değişiklik.
-- **Canlı doğrulandı:** Data Table 117 satır, CSV, Gmail SMTP teslimi, iki otomatik çalışmada 117 → 0 değişiklik ve ayrı kopyada erişilemeyen site hata e-postası. [Kanıt ve sınırlar](B-n8n/CANLI-TESTLER.md). İlk disk varyantı eksik klasör nedeniyle çalışmadı; önerilen akış Data Table kullanır.
-- **Bonus (sonradan eklendi):** `urun-sorusu` ve `fiyat` mesajlarında `/products/search` ile ürün araması. Türkçe terimler test mağazasının İngilizce sözcüklerine çevrilir (ör. nemlendirici → moisturizer/lotion). Yalnızca beauty/skin-care/fragrances kategorisinde ve başlığında arama sözcüğü geçen ürünler taslağa eklenir; böylece "cream" araması "Ice Cream" döndürse de taslağa girmez. Hassas konularda ve sipariş mesajlarında arama yapılmaz. Arama hatası devir sebebi değildir, `not` alanına yazılır. Test mağazası genel bir mağaza olduğundan verilen 6 mesajdan yalnızca mesaj 10'da eşleşme çıktı (Vaseline Men Body and Face Lotion). Diğerlerinde "eşleşme yok" notu düşülür, ürün uydurulmaz. 3 yeni test eklendi (toplam 19).
-- **Ekran görüntüsü:** canlı n8n akışı → [B-n8n/ekran-goruntusu-workflow.png](B-n8n/ekran-goruntusu-workflow.png). `ozet.html` için ekran görüntüsü alınmadı.
-- **Gerçek kullanım sınırı:** `musteri_id` bu görevde güvenilir test girdisidir. Canlı WhatsApp/Instagram bağlantısında kimlik sunucu tarafında doğrulanmalı; müşteri metninden kabul edilmemelidir. Kurallı sınıflandırma için daha geniş bir değerlendirme seti gerekir. n8n durum saklama yaklaşımı tek, günlük çalışma için tasarlandı; eşzamanlı çalıştırma yapılmamalıdır.
+Ayrıntılı kayıt: [promptlar/surec-notu.md](promptlar/surec-notu.md).
 
-## Süre ve süreç kaydı
+## Bitiremediklerim / sınırlar
 
-- Görev e-postası: **28 Eylül 2026 10:00** (+03:00). Son teslim: **13:00**.
-- İlk proje dosyası: 10:05. Teslim hazırlığı: 11:40 civarı.
-- Araçlar: **Codex** (10:04–11:3x, kodlama, n8n kurulumu, canlı testler). Codex kullanım limiti dolunca **Claude Code** ile devam edildi (prompt dökümü, son kontroller, GitHub).
+- `ozet.html` için ekran görüntüsü alınmadı.
+- Konu ataması kural tabanlı. Farklı yazım biçimleri için daha geniş bir değerlendirme seti ya da bir LLM sınıflandırıcı gerekir.
+- `musteri_id` bu görevde güvenilir girdi olarak kabul edildi. Gerçek WhatsApp/Instagram entegrasyonunda kimlik sunucu tarafında doğrulanmalı.
+- n8n'deki karşılaştırma durumu workflow static data üzerinde tutuluyor. Bu, günde tek çalışma için tasarlandı, eşzamanlı çalıştırma desteklenmiyor. 09:00'daki ilk gerçek zamanlanmış çalışma teslimden sonra gerçekleşecek.
 
-### Promptlar
+## Promptlar
 
-- [promptlar/codex-tam-prompt-dokumu.md](promptlar/codex-tam-prompt-dokumu.md): Codex oturumundaki **56 kullanıcı mesajının tamamı**. Sırayla, olduğu gibi, başarısız denemeler dahil (ör. mesaj 11: disk varyantında `The file or directory does not exist` hatası → Data Table sürümüne geçiş). Oturum kaydından otomatik çıkarıldı; yalnızca kişisel e-posta adresleri maskelendi.
-- [promptlar/claude-code-oturumu.md](promptlar/claude-code-oturumu.md): Claude Code oturumundaki promptlar.
-- [promptlar/A-claude-code.md](promptlar/A-claude-code.md) ve [promptlar/B-n8n.md](promptlar/B-n8n.md): brief'te önerilen dosya adları. A ve B tek bir Codex sohbetinde birlikte yürütüldüğü için tam döküm ortak dosyadadır.
-- [promptlar/surec-notu.md](promptlar/surec-notu.md): başarısız araç denemeleri ve düzeltmeler.
+Brief'in istediği şekilde tüm promptlar sırasıyla ve olduğu gibi, başarısız denemeler dahil [promptlar/](promptlar/) klasöründe. Tek değişiklik: kişisel e-posta adresleri maskelendi.
