@@ -26,15 +26,23 @@ def normalize(text):
 def classify(text):
     """Tek konu; güvenlik > iade > sipariş > fiyat > ürün > diğer."""
     t = normalize(text)
-    if re.search(r'yan(di|ma|iyor)|kizar|alerj|tahris|kasinti|sisti|sisme|dokuntu|burn|rash|allerg|irritat|swelling', t):
+    if re.search(r'yan(di|ma|iyor)|yak(ti|iyor|ma)|kizar|alerj|tahris|kasin|kasint|sisti|sisme|sislik|dokuntu|sivilce|akne|reaksiyon'
+                 r'|irritasyon|burn|rash|allerg|irritat|swelling|itch|breakout', t):
         return 'istenmeyen-etki'
-    if re.search(r'iade|sikayet|ezik|kirik|hasar|bozuk|refund|return|damaged|complaint', t):
+    # Güvenlik ağı: kullanım sonrası + vücut bölgesi anlatımı belirtisi tanınmasa da insana gider (yanlış pozitif kabul edilir).
+    if (re.search(r'\b(yuz|cilt|cild|goz|dudak|boyun|el(im|lerim)|skin|face|eye|lip)', t)
+            and re.search(r'sonra(si)?\b|kullandim|kullaninca|surdum|surdukten|surunce|after (using|applying)', t)):
+        return 'istenmeyen-etki'
+    if re.search(r'iade|sikayet|ezik|kirik|hasar|bozuk|yanlis urun|eksik (geldi|urun|cikti)|bos (geldi|cikti)|degistir'
+                 r'|geri istiyorum|memnun (kalmadim|degilim)|gec geldi|son kullanma tarihi gecmis|farkli (renk|urun)|istemedim'
+                 r'|refund|return|damaged|complaint|wrong item|expired', t):
         return 'iade-sikayet'
     if re.search(r'siparis|\border\b|\btracking\b', t):
         return 'siparis-durumu'
-    if re.search(r'fiyat|ne kadar|indirim|kupon|price|cost|discount', t):
+    if re.search(r'fiyat|ne kadar|kac (tl|para|lira)|ucret|indirim|kupon|kampanya|price|cost|discount|how much', t):
         return 'fiyat'
-    if re.search(r'urun|serum|retinol|krem|tonik|vitamin|cilt|icerik|alkol|\bml\b|product', t):
+    if re.search(r'urun|serum|retinol|krem|tonik|vitamin|cilt|cild|icerik|alkol|\bml\b|sampuan|maske|parfum|sac|uygun mu'
+                 r'|kullanil|hamile|vegan|paraben|icinde|jel|product|moistur|sunscreen|skin', t):
         return 'urun-sorusu'
     return 'diger'
 

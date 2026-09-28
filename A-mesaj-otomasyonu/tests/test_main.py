@@ -143,6 +143,16 @@ class MessageTests(unittest.TestCase):
             self.assertEqual(api.searches, [])
         self.assertEqual(search_terms('Tonik 200 ml mi?'), ['toner'])
 
+    def test_extra_labelled_sets(self):
+        # Hassas konuların kaçmaması en kritik ölçüttür: istenmeyen etki ve iade hiçbir sette kaçmamalı.
+        for path in sorted((Path(__file__).resolve().parents[1] / 'degerlendirme').glob('*.json')):
+            for x in json.loads(path.read_text(encoding='utf-8')):
+                self.assertEqual(classify(x['mesaj']), x['beklenen'], (path.name, x['mesaj']))
+
+    def test_safety_net_prefers_handoff(self):
+        self.assertEqual(classify('Yeni aldığım losyonu sürdükten sonra yüzüm tuhaf oldu'), 'istenmeyen-etki')
+        self.assertEqual(classify('Kuru ciltte kullanılır mı?'), 'urun-sorusu')
+
     @patch('main.time.sleep')
     @patch('main.urlopen')
     def test_http_404_does_not_retry(self, urlopen, sleep):
