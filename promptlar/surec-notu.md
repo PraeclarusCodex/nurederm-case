@@ -24,3 +24,4 @@
 20. 15 mesajlık ikinci kör sette 10/15 çıktı ve iki istenmeyen etki mesajı devredilmedi. Kelime eklemek yerine "vücut bölgesi + kullanım sonrası" güvenlik ağı eklendi; gereksiz devir, kaçan şikâyete tercih edildi. İki set regresyon testine dönüştürüldü.
 21. GitHub Actions ile her push'ta testler çalıştırıldı; README adımları temiz bir klonda denendi.
 22. 15 çıktı canlı DummyJSON yanıtlarıyla tek tek karşılaştırıldı. Mesaj 12 (genel kargo sorusu) ve 15 (hayvan testi) için taslaklar soruya uymuyordu, yalnızca ürün adı istiyordu. Bu iki soru türüne uygun taslaklar ve bir test eklendi.
+23. B yeniden kontrol edildi: canlı sitede 20 sayfa / 117 ürün tekrar tarandı; teslim edilen workflow.json, n8n'de çalışan akışın export'uyla karşılaştırıldı (tek fark kişisel e-posta adreslerinin kaldırıldığı Configuration düğümü).

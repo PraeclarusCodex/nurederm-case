@@ -127,3 +127,9 @@ bunları da sonra yap ve 10 üzeirinden puan ver tam puan olana kadar çalış. 
 ```text
 ama bizim otomize ettiğimiz alan bölüm a için de çalışıyor mu? bu sistem baştan sona adamların istedikleri biçimde işleyişini doğru yapıyor mu
 ```
+
+## 18 — 12:17
+
+```text
+B bölümü de aynısı için dimi
+```
