@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "konu": "siparis-durumu",
+    "devret": true,
+    "cevap_taslagi": "Siparişi hesabınızla doğrulayamadık. Kontrol için temsilcimize yönlendiriyorum.",
+    "not": "Sahiplik doğrulanamadı; ürün, tutar ve diğer müşterinin kimliği paylaşılmadı."
+  },
+  {
+    "id": 2,
+    "konu": "siparis-durumu",
+    "devret": false,
+    "cevap_taslagi": "5 numaralı siparişiniz: Samsung Galaxy Tab White × 4; Soft Drinks × 4; Powder Canister × 4. Toplam: 1467.88 (test API tutarı; para birimi belirtilmiyor). Bu API kargo durumu veya teslim tarihi sağlamıyor.",
+    "not": "Sahiplik doğrulandı; ürünler ve total API’den alındı. Kargo tarihi uydurulmadı."
+  },
+  {
+    "id": 3,
+    "konu": "siparis-durumu",
+    "devret": true,
+    "cevap_taslagi": "9999 numaralı sipariş bulunamadı. Lütfen sipariş numaranızı kontrol edin.",
+    "not": "API: sipariş bulunamadı; manuel kontrol gerekli."
+  },
+  {
+    "id": 4,
+    "konu": "istenmeyen-etki",
+    "devret": true,
+    "cevap_taslagi": "Mesajınızı değerlendirmesi için müşteri temsilcimize yönlendiriyorum.",
+    "not": "Hassas konu; yalnızca insana devir. Ürün önerisi veya teşhis üretilmedi."
+  },
+  {
+    "id": 5,
+    "konu": "iade-sikayet",
+    "devret": true,
+    "cevap_taslagi": "Mesajınızı değerlendirmesi için müşteri temsilcimize yönlendiriyorum.",
+    "not": "Hassas konu; yalnızca insana devir. Ürün önerisi veya teşhis üretilmedi."
+  },
+  {
+    "id": 6,
+    "konu": "siparis-durumu",
+    "devret": false,
+    "cevap_taslagi": "Order #3: Fish Steak × 1; iPhone 13 Pro × 1; Realme X × 1; Man Short Sleeve Shirt × 5; Dior J'adore × 2; Party Glasses × 5. Total: 1794.85 (test API amount; currency unspecified). The API does not provide shipping status or a delivery date.",
+    "not": "Sahiplik doğrulandı; ürünler ve total API’den alındı. Kargo tarihi uydurulmadı."
+  },
+  {
+    "id": 7,
+    "konu": "diger",
+    "devret": false,
+    "cevap_taslagi": "",
+    "not": "Kapsam dışı veya reklam mesajı; otomatik cevap taslağı üretilmedi."
+  },
+  {
+    "id": 8,
+    "konu": "siparis-durumu",
+    "devret": false,
+    "cevap_taslagi": "4 numaralı siparişiniz: Sports Sneakers Off White Red × 3; Dior J'adore × 4. Toplam: 689.93 (test API tutarı; para birimi belirtilmiyor). Bu API kargo durumu veya teslim tarihi sağlamıyor. Ürün fiyatı sorunuz için ürünün tam adını paylaşabilirsiniz.",
+    "not": "Sahiplik doğrulandı; ürünler ve total API’den alındı. Kargo tarihi uydurulmadı. Birden çok niyet: sipariş önceliklendirildi, fiyat sorusu korundu."
+  },
+  {
+    "id": 9,
+    "konu": "urun-sorusu",
+    "devret": false,
+    "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+  },
+  {
+    "id": 10,
+    "konu": "fiyat",
+    "devret": false,
+    "cevap_taslagi": "Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?",
+    "not": "Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı."
+  },
+  {
+    "id": 11,
+    "konu": "urun-sorusu",
+    "devret": false,
+    "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+  },
+  {
+    "id": 12,
+    "konu": "siparis-durumu",
+    "devret": true,
+    "cevap_taslagi": "Kontrol edebilmemiz için tek bir sipariş numarası paylaşır mısınız?",
+    "not": "Sipariş numarası yok veya birden fazla; kargo firması hakkında doğrulanmış bilgi yok."
+  },
+  {
+    "id": 13,
+    "konu": "urun-sorusu",
+    "devret": false,
+    "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+  },
+  {
+    "id": 14,
+    "konu": "fiyat",
+    "devret": false,
+    "cevap_taslagi": "Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?",
+    "not": "Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı."
+  },
+  {
+    "id": 15,
+    "konu": "urun-sorusu",
+    "devret": false,
+    "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+  }
+]
