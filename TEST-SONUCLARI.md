@@ -4,7 +4,7 @@
 
 | Kontrol | Sonuç | Kanıt / kapsam |
 |---|---|---|
-| Python testleri | 16 / 16 geçti | `python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v` |
+| Python testleri | 19 / 19 geçti (3 bonus arama testi dahil) | `python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v` |
 | A canlı DummyJSON | 15 çıktı / 5 devir | `A-mesaj-otomasyonu/talepler.json` |
 | n8n kod ve yapı testleri | 12 / 12 geçti | `cd B-n8n && npm test` |
 | Canlı HTML taraması | 20 sayfa / 117 ürün | `B-n8n/live-check.json` |

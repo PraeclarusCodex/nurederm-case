@@ -6,9 +6,11 @@
   "github_published": false,
   "submission_email_sent": false,
   "n8n_live_executed": true,
-  "python_tests_passed": 16,
+  "python_tests_passed": 19,
   "workflow_logic_tests_passed": 17,
   "n8n_live_evidence": "B-n8n/CANLI-TESTLER.md",
   "full_prompt_transcript_included": true,
-  "deadline": "2026-09-28T13:00:00+03:00"
+  "deadline": "2026-09-28T13:00:00+03:00",
+  "product_search_bonus": true,
+  "n8n_screenshot": "B-n8n/ekran-goruntusu-workflow.png"
 }

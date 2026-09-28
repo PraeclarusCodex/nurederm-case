@@ -20,10 +20,9 @@ Windows'ta etkinleştirme: `.venv\Scripts\activate`. Araç dosya yollarını ken
 
 - [Mesaj paneli](A-mesaj-otomasyonu/ozet.html): tarayıcıda açılır; arama, konu filtresi ve yalnızca devirler seçeneği vardır.
 - [talepler.json](A-mesaj-otomasyonu/talepler.json): gerekli beş alanı taşıyan 15 sonuç.
-- [workflow.json](B-n8n/workflow.json): önerilen n8n import dosyası (20 düğüm).
+- [workflow.json](B-n8n/workflow.json): önerilen n8n import dosyası (20 düğüm). [Ekran görüntüsü](B-n8n/ekran-goruntusu-workflow.png).
 - [Akış kurulumu ve tasarım kararları](B-n8n/akis-aciklama.md).
 - [Test kanıtları ve sınırlar](TEST-SONUCLARI.md).
-- [Çözümü anlatma rehberi](SUNUM-REHBERI.md).
 
 ## A — müşteri mesajları
 
@@ -74,10 +73,10 @@ Son komut siteyi canlı okur, e-posta göndermez. n8n motoru yerine kod ve HTML 
 ## Kapsam ve dürüst teslim notu
 
 - **Yapıldı:** A'nın gerçek API ile çalışması, 15 çıktı, tek sayfalık HTML uygulaması; B'nin 20 düğümlü web JSON tasarımı, şablon kaynağı, tüm sayfaların gerçek HTML ile kontrolü, testler ve açıklamalar.
-- **Doğrulandı:** 16 Python testi + 17 workflow mantık/yapı testi. Canlı sitede 20 sayfa / 117 ürün; aynı veriyle 0 değişiklik; bir simüle fiyat değişikliğinde 1 değişiklik.
+- **Doğrulandı:** 19 Python testi + 17 workflow mantık/yapı testi. Canlı sitede 20 sayfa / 117 ürün; aynı veriyle 0 değişiklik; bir simüle fiyat değişikliğinde 1 değişiklik.
 - **Canlı doğrulandı:** Data Table 117 satır, CSV, Gmail SMTP teslimi, iki otomatik çalışmada 117 → 0 değişiklik ve ayrı kopyada erişilemeyen site hata e-postası. [Kanıt ve sınırlar](B-n8n/CANLI-TESTLER.md). İlk disk varyantı eksik klasör nedeniyle çalışmadı; önerilen akış Data Table kullanır.
-- **Yapılmadı:** isteğe bağlı ürün arama bonusu. Ürün bonusu, genel test mağazasını Nurederm'in gerçek kataloğu gibi sunmamak ve zorunlu davranışları önceliklendirmek için eklenmedi.
-- **Görsel kontrol sınırı:** tarayıcı güvenlik politikasını doğrulayamadığı için yerel HTML önizlemesi engellendi. Ekran görüntüsü alınmadı; görsel doğrulama yapılmış gibi sunulmuyor.
+- **Bonus (sonradan eklendi):** `urun-sorusu` ve `fiyat` mesajlarında `/products/search` ile ürün araması. Türkçe terimler test mağazasının İngilizce sözcüklerine çevrilir (ör. nemlendirici → moisturizer/lotion). Yalnızca beauty/skin-care/fragrances kategorisinde ve başlığında arama sözcüğü geçen ürünler taslağa eklenir; böylece "cream" araması "Ice Cream" döndürse de taslağa girmez. Hassas konularda ve sipariş mesajlarında arama yapılmaz. Arama hatası devir sebebi değildir, `not` alanına yazılır. Test mağazası genel bir mağaza olduğundan verilen 6 mesajdan yalnızca mesaj 10'da eşleşme çıktı (Vaseline Men Body and Face Lotion). Diğerlerinde "eşleşme yok" notu düşülür, ürün uydurulmaz. 3 yeni test eklendi (toplam 19).
+- **Ekran görüntüsü:** canlı n8n akışı → [B-n8n/ekran-goruntusu-workflow.png](B-n8n/ekran-goruntusu-workflow.png). `ozet.html` için ekran görüntüsü alınmadı.
 - **Gerçek kullanım sınırı:** `musteri_id` bu görevde güvenilir test girdisidir. Canlı WhatsApp/Instagram bağlantısında kimlik sunucu tarafında doğrulanmalı; müşteri metninden kabul edilmemelidir. Kurallı sınıflandırma için daha geniş bir değerlendirme seti gerekir. n8n durum saklama yaklaşımı tek, günlük çalışma için tasarlandı; eşzamanlı çalıştırma yapılmamalıdır.
 
 ## Süre ve süreç kaydı
