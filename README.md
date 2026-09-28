@@ -5,43 +5,7 @@
 
 ## Mimari
 
-**Talep Masası:** müşteri mesajından temsilci iş listesine
-
-```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Inter, Segoe UI, Helvetica, sans-serif','fontSize':'15px','lineColor':'#8a9a90','primaryTextColor':'#17352c','edgeLabelBackground':'#ffffff'}}}%%
-flowchart LR
-    IN(["15 mesaj<br/>WhatsApp · Instagram"]):::io --> K{"Konu ata"}:::step
-    K -- "iade · istenmeyen etki" --> H["Temsilciye devret"]:::handoff
-    K -- "sipariş" --> C["DummyJSON<br/>/carts/id"]:::api
-    C -- "başka müşteri<br/>veya bulunamadı" --> H
-    C -- "sahiplik doğrulandı" --> T["Cevap taslağı<br/>ürünler + tutar"]:::ok
-    K -- "ürün · fiyat" --> S["DummyJSON<br/>/products/search"]:::api --> T
-    H --> OUT(["talepler.json<br/>ozet.html"]):::io
-    T --> OUT
-    classDef io fill:#17352c,stroke:#17352c,color:#ffffff,font-weight:bold
-    classDef step fill:#ffffff,stroke:#c3cec7,color:#17352c
-    classDef api fill:#eef3e6,stroke:#96ac65,color:#17352c
-    classDef ok fill:#e3f1e7,stroke:#3f8f5f,color:#17352c
-    classDef handoff fill:#fdebd9,stroke:#d98a3d,color:#7a3e0a
-    classDef fail fill:#fbe4e4,stroke:#c94a4a,color:#7a1f1f
-```
-
-**FiyatRadar:** günlük fiyat takibi (n8n)
-
-```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Inter, Segoe UI, Helvetica, sans-serif','fontSize':'15px','lineColor':'#8a9a90','primaryTextColor':'#17352c','edgeLabelBackground':'#ffffff'}}}%%
-flowchart LR
-    Z(["Her gün 09:00<br/>Europe/Istanbul"]):::io --> P["20 sayfayı tara<br/>ad · fiyat · yorum · link"]:::api --> V["Önceki çalışmayla<br/>karşılaştır"]:::step --> DT[("Data Table<br/>+ CSV")]:::api --> E{"Yeni ya da<br/>değişen var mı?"}:::step
-    E -- evet --> N["E-posta bildirimi"]:::ok --> S(["Durumu kaydet"]):::io
-    E -- hayır --> S
-    ERR["Site kapalı · ürün yok · kayıt hatası"]:::fail -. her adımda .-> F(["Hata e-postası<br/>çalışma başarısız"]):::fail
-    classDef io fill:#17352c,stroke:#17352c,color:#ffffff,font-weight:bold
-    classDef step fill:#ffffff,stroke:#c3cec7,color:#17352c
-    classDef api fill:#eef3e6,stroke:#96ac65,color:#17352c
-    classDef ok fill:#e3f1e7,stroke:#3f8f5f,color:#17352c
-    classDef handoff fill:#fdebd9,stroke:#d98a3d,color:#7a3e0a
-    classDef fail fill:#fbe4e4,stroke:#c94a4a,color:#7a1f1f
-```
+![Talep Masası ve FiyatRadar mimarisi](docs/mimari.svg)
 
 | | |
 |---|---|
