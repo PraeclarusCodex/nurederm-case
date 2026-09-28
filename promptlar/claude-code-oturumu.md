@@ -1,6 +1,6 @@
-# Claude Code oturumu — kullanıcı promptları (aynen)
+# Claude Code oturumu — promptlar
 
-Codex kullanım limiti dolunca (11:3x) teslim hazırlığı Claude Code ile sürdürüldü. Bu oturumda yapılanlar: Codex oturum kaydından prompt dökümünü çıkarmak, testleri yeniden çalıştırmak, README'yi güncellemek, git geçmişini oluşturup GitHub'a yüklemek.
+Son kontroller, ürün arama bonusu ve teslim hazırlığı.
 
 ## 1 — 11:38
 

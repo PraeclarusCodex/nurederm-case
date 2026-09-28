@@ -19,4 +19,4 @@
 15. README, akış açıklaması, şablon kaynak kaydı ve test dokümanları hazırlandı.
 16. n8n'e import edildi; 20 sayfa tarama ve 117 satırlık CSV çalıştı. Disk yazımı `The file or directory does not exist` hatası verdi: n8n web sürümünde sunucu diski yok. Disk yerine Data Table kullanan sürüm ve 5 ek test hazırlandı.
 17. Data Table, Gmail SMTP, iki zamanlanmış çalışma ve ayrı bir kopyada erişilemeyen adresle hata e-postası canlı test edildi (bkz. `TEST-SONUCLARI.md`).
-18. Codex kullanım limiti doldu; Claude Code ile prompt dökümü çıkarıldı, ürün arama bonusu ve 3 testi eklendi, depo düzenlenip yayınlandı.
+18. Claude Code ile ürün arama bonusu ve 3 testi eklendi, depo düzenlenip yayınlandı.

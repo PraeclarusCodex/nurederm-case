@@ -4,7 +4,7 @@ Kaynak: Codex yerel oturum kaydı (`~/.codex/sessions/.../rollout-2026-09-28T10-
 Her mesaj **sırasıyla ve olduğu gibi** aktarıldı; yazım hataları düzeltilmedi. Yalnızca araçların otomatik eklediği bağlam blokları (eklenti önerileri, tarayıcı durum bilgisi, dosya yolu başlıkları) çıkarıldı. Kişisel e-posta adresleri `[e-posta gizlendi]` ile maskelendi. 
 Ekran görüntüleri n8n arayüzünün görüntüleriydi; repoya konmadı, sadece `[ekran görüntüsü]` olarak işaretlendi. Saatler Europe/Istanbul.
 
-Not: Codex kullanım limiti 11:3x civarında doldu; teslim hazırlığının geri kalanı Claude Code ile yapıldı (bkz. `claude-code-oturumu.md`).
+Devamı: `claude-code-oturumu.md`.
 
 ## 1 — 10:04
 
