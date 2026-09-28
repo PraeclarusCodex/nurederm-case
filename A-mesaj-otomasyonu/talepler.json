@@ -80,8 +80,8 @@
     "id": 12,
     "konu": "siparis-durumu",
     "devret": true,
-    "cevap_taslagi": "Kontrol edebilmemiz için tek bir sipariş numarası paylaşır mısınız?",
-    "not": "Sipariş numarası yok veya birden fazla; kargo firması hakkında doğrulanmış bilgi yok."
+    "cevap_taslagi": "Kargo firması bilgisini ekibimiz sizinle paylaşacak. Belirli bir siparişinizi soruyorsanız sipariş numaranızı iletebilirsiniz.",
+    "not": "Genel kargo sorusu; API taşıyıcı bilgisi sağlamıyor, uydurulmadı. Temsilci yanıtlamalı."
   },
   {
     "id": 13,
@@ -101,7 +101,7 @@
     "id": 15,
     "konu": "urun-sorusu",
     "devret": false,
-    "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
-    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi. Bonus arama: mesajda aranacak ürün terimi yok."
+    "cevap_taslagi": "Ürünlerimizin bu konudaki politikasını ekibimizden teyit edip size en kısa sürede ileteceğiz.",
+    "not": "Marka politikası sorusu; doğrulanmış kaynak olmadan iddia üretilmedi. Temsilci doğrulamalı."
   }
 ]

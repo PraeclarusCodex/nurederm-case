@@ -143,6 +143,17 @@ class MessageTests(unittest.TestCase):
             self.assertEqual(api.searches, [])
         self.assertEqual(search_terms('Tonik 200 ml mi?'), ['toner'])
 
+    def test_general_shipping_and_policy_drafts(self):
+        api = Stub(self.cart)
+        r = process(message('Siparişler hangi kargo firmasıyla gönderiliyor?'), api)
+        self.assertTrue(r['devret'])
+        self.assertIn('Kargo firması', r['cevap_taslagi'])
+        self.assertEqual(api.calls, [])
+        r = process(message('Ürünleriniz hayvanlar üzerinde test ediliyor mu?'), api)
+        self.assertFalse(r['devret'])
+        self.assertIn('politikasını', r['cevap_taslagi'])
+        self.assertEqual(api.searches, [])
+
     def test_extra_labelled_sets(self):
         # Hassas konuların kaçmaması en kritik ölçüttür: istenmeyen etki ve iade hiçbir sette kaçmamalı.
         for path in sorted((Path(__file__).resolve().parents[1] / 'degerlendirme').glob('*.json')):

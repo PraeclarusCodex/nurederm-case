@@ -35,7 +35,7 @@ TEST-SONUCLARI.md     otomatik ve canlı test sonuçları
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python3 A-mesaj-otomasyonu/main.py                          # talepler.json + ozet.html üretir, terminale özet basar
-python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v # 21 test
+python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v # 22 test
 python3 A-mesaj-otomasyonu/degerlendir.py                   # 45 yeni mesajla sınıflandırma ölçümü
 ```
 
@@ -90,6 +90,8 @@ Set 2'deki en ciddi bulgu: istenmeyen etki mesajları, belirtiyi tanıyan bir ke
 Tasarım kararları:
 - Mesaj 8 hem fiyat hem sipariş soruyor. Konusu `siparis-durumu` oldu, fiyat sorusu da taslakta ele alındı.
 - Mesaj 7 reklam/spam. Konusu `diger`, cevap taslağı boş bırakıldı.
+- Mesaj 12 genel bir kargo sorusu, sipariş numarası yok. API taşıyıcı bilgisi vermediği için temsilciye devredilir, taslakta kargo firması uydurulmaz.
+- Mesaj 15 (hayvan testi) bir marka politikası sorusu. Taslak iddia üretmez, bilginin ekipten teyit edileceğini söyler.
 - İçerik, cilt uygunluğu ve hayvan testi gibi sorular için doğrulanmış bir marka kaynağı yok. Bu yüzden iddia üretilmez, müşteriden ürünün tam adı istenir.
 
 ## B — FiyatRadar: n8n fiyat takibi

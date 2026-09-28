@@ -166,6 +166,9 @@ def process(message, api):
     if topic == 'siparis-durumu':
         ids = order_ids(text)
         english = bool(re.search(r'\b(my order|where is|tracking)\b', text, re.I))
+        if not ids and re.search(r'kargo firma|hangi kargo|carrier|shipping company', normalize(text)):
+            return finish('Kargo firması bilgisini ekibimiz sizinle paylaşacak. Belirli bir siparişinizi soruyorsanız sipariş numaranızı iletebilirsiniz.',
+                          'Genel kargo sorusu; API taşıyıcı bilgisi sağlamıyor, uydurulmadı. Temsilci yanıtlamalı.', True)
         if len(ids) != 1:
             return finish('Kontrol edebilmemiz için tek bir sipariş numarası paylaşır mısınız?',
                           'Sipariş numarası yok veya birden fazla; kargo firması hakkında doğrulanmış bilgi yok.', True)
@@ -215,6 +218,9 @@ def process(message, api):
         if topic == 'fiyat':
             reply = 'Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?'
             note = 'Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı.'
+        elif re.search(r'hayvan|test edil|vegan|cruelty|helal', normalize(text)):
+            return finish('Ürünlerimizin bu konudaki politikasını ekibimizden teyit edip size en kısa sürede ileteceğiz.',
+                          'Marka politikası sorusu; doğrulanmış kaynak olmadan iddia üretilmedi. Temsilci doğrulamalı.')
         else:
             reply = 'Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?'
             note = 'Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi.'
