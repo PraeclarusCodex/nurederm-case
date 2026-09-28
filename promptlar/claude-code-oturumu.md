@@ -139,3 +139,9 @@ B bölümü de aynısı için dimi
 ```text
 bizim ne eklediklerimizi de bi txt dosyası olarak yazalım istiyorsan ne eklenildi ve bundaki amaç ne
 ```
+
+## 20 — 12:21
+
+```text
+o zaman maili iletiyorum
+```
