@@ -1,0 +1,17 @@
+[
+  {"mesaj": "Peelingden sonra yüzüm pul pul döküldü ve acıyor", "beklenen": "istenmeyen-etki"},
+  {"mesaj": "Dudak balmı kullanınca dudaklarım şişti", "beklenen": "istenmeyen-etki"},
+  {"mesaj": "Maske sonrası yüzümde kabarcıklar oluştu", "beklenen": "istenmeyen-etki"},
+  {"mesaj": "Ürünün kapağı açılmış geldi, iade süreci nasıl?", "beklenen": "iade-sikayet"},
+  {"mesaj": "Aldığım krem son kullanma tarihi geçmiş çıktı", "beklenen": "iade-sikayet"},
+  {"mesaj": "Paketten farklı renk çıktı, bunu istemedim", "beklenen": "iade-sikayet"},
+  {"mesaj": "Sipariş 44 hangi aşamada?", "beklenen": "siparis-durumu"},
+  {"mesaj": "Dün verdiğim 18 numaralı siparişin takip numarası var mı?", "beklenen": "siparis-durumu"},
+  {"mesaj": "Where is order 12?", "beklenen": "siparis-durumu"},
+  {"mesaj": "Serum setinin ücreti ne?", "beklenen": "fiyat"},
+  {"mesaj": "Öğrenci indirimi var mı?", "beklenen": "fiyat"},
+  {"mesaj": "Temizleme jelinin içinde paraben var mı?", "beklenen": "urun-sorusu"},
+  {"mesaj": "Güneş kremi su geçirmez mi?", "beklenen": "urun-sorusu"},
+  {"mesaj": "Instagram hesabınızı çok beğeniyorum", "beklenen": "diger"},
+  {"mesaj": "Fatura bilgilerimi nasıl güncellerim?", "beklenen": "diger"}
+]
