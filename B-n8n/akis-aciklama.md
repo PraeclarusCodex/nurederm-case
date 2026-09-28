@@ -1,4 +1,4 @@
-# B — Günlük laptop fiyat takibi (n8n)
+# FiyatRadar — günlük laptop fiyat takibi (n8n)
 
 ## Şablon ve değişiklikler
 
@@ -35,7 +35,7 @@ Tablo kayıtları bildirimden önce yazılır. Bildirim hatasında satırlar kal
 ## Kurulum
 
 1. `workflow.json` dosyasını import edin; akış pasif gelir. (`workflow-local.json`, n8n web'de disk erişimi olmadığı için bırakılan ilk dosya tabanlı sürümdür.)
-2. Aynı n8n projesinde altı sütunlu `nurederm_price_history` tablosunu oluşturun: timestamp/name/url/currency String, price/reviews Number.
+2. Aynı n8n projesinde altı sütunlu `fiyatradar_price_history` tablosunu oluşturun: timestamp/name/url/currency String, price/reviews Number.
 3. Save price history içinde tabloyu seçin, Map Automatically kullanın ve Optimize Bulk kapalı kalsın.
 4. Configuration içinde gönderen/alıcıyı değiştirin; Notify changes ve Notify failure için SMTP credential seçin. Şifreyi JSON'a koymayın.
 5. Gerçek alıcıya e-posta gönderebileceğini bilerek kurulum testini yapın. Ardından Europe/Istanbul ve `0 9 * * *` ayarlarıyla Publish yapın.

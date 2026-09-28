@@ -1,5 +1,5 @@
 {
-  "name": "Nurederm | Web - Data Table price monitor",
+  "name": "FiyatRadar | Günlük Laptop Fiyat Takibi",
   "nodes": [
     {
       "parameters": {
@@ -324,7 +324,7 @@
     },
     {
       "parameters": {
-        "content": "## Web sürümü — Data Table kaydı\nŞablon: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Aynı projede nurederm_price_history tablosunu oluştur.\n2. Sütunlar: timestamp (String), name (String), price (Number), reviews (Number), url (String), currency (String).\n3. Save price history düğümünde tabloyu seç ve alan eşlemelerini kontrol et.\n4. Configuration e-posta adresleri + iki Email düğümünde SMTP hesabını ayarla.\n\nGünlük kalıcı kayıt: Data Table. CSV: isteğe bağlı indirme çıktısı.\nKlasör, SSH veya sunucu dosya sistemi erişimi gerekmez.\nKarşılaştırma: son başarılı aktif çalışmanın static data kaydı.\nManuel çalışmada static data kalıcılığı bekleme.\nTablo kayıtları tarihli geçmiş içerir; tekrar çalıştırma yeni satırlar ekler.\nData Table, SMTP ve zamanlanmış karşılaştırma canlı doğrulandı (28.09.2026).\nYeni ortamda tablo ve SMTP bağlantılarını yeniden seçin.",
+        "content": "## FiyatRadar — Data Table kaydı\nŞablon: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Aynı projede fiyatradar_price_history tablosunu oluştur.\n2. Sütunlar: timestamp (String), name (String), price (Number), reviews (Number), url (String), currency (String).\n3. Save price history düğümünde tabloyu seç ve alan eşlemelerini kontrol et.\n4. Configuration e-posta adresleri + iki Email düğümünde SMTP hesabını ayarla.\n\nGünlük kalıcı kayıt: Data Table. CSV: isteğe bağlı indirme çıktısı.\nKlasör, SSH veya sunucu dosya sistemi erişimi gerekmez.\nKarşılaştırma: son başarılı aktif çalışmanın static data kaydı.\nManuel çalışmada static data kalıcılığı bekleme.\nTablo kayıtları tarihli geçmiş içerir; tekrar çalıştırma yeni satırlar ekler.\nData Table, SMTP ve zamanlanmış karşılaştırma canlı doğrulandı (28.09.2026).\nYeni ortamda tablo ve SMTP bağlantılarını yeniden seçin.",
         "height": 430,
         "width": 610
       },

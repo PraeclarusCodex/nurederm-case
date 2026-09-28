@@ -1,5 +1,5 @@
 {
-  "name": "Nurederm | Daily laptop price monitor",
+  "name": "FiyatRadar | Günlük Laptop Fiyat Takibi (disk sürümü)",
   "nodes": [
     {
       "id": "cf98acd3-bdf9-57dc-a8eb-bc7343a7c6cb",
@@ -365,7 +365,7 @@
         430
       ],
       "parameters": {
-        "content": "## Nurederm — günlük laptop takibi\nBaşlangıç şablonu: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Configuration: e-posta adreslerini değiştir.\n2. Her iki Email düğümüne SMTP credential seç.\n3. CSV dizinini oluştur, kalıcı volume bağla ve yazma izni ver.\n4. Aktif/published akışı günde 09:00 Europe/Istanbul çalıştır.\n\nCSV: her çalışmada tüm ürünler + ISO tarih; karşılaştırma: son başarılı static data.\nManuel test static data saklamaz. İlk çalışmada tüm ürünler YENİ.\nHata çıkışları → bildirim → Stop And Error.\nCanlı SMTP ve n8n yürütme bu teslimde doğrulanmamıştır.",
+        "content": "## FiyatRadar — günlük laptop takibi\nBaşlangıç şablonu: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Configuration: e-posta adreslerini değiştir.\n2. Her iki Email düğümüne SMTP credential seç.\n3. CSV dizinini oluştur, kalıcı volume bağla ve yazma izni ver.\n4. Aktif/published akışı günde 09:00 Europe/Istanbul çalıştır.\n\nCSV: her çalışmada tüm ürünler + ISO tarih; karşılaştırma: son başarılı static data.\nManuel test static data saklamaz. İlk çalışmada tüm ürünler YENİ.\nHata çıkışları → bildirim → Stop And Error.\nCanlı SMTP ve n8n yürütme bu teslimde doğrulanmamıştır.",
         "height": 430,
         "width": 610
       }

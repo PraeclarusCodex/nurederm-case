@@ -49,7 +49,7 @@ code('Commit successful snapshot', 'commit.js', 2880)
 node('Prepare failure alert', 'code', {'mode': 'runOnceForAllItems', 'jsCode': "const errors = $input.all().map(i => i.json.error?.message || i.json.error || i.json.message || 'Bilinmeyen hata'); return [{json:{subject:'HATA: Laptop fiyat takibi tamamlanamadı', text: 'Çalışma: ' + $execution.id + '\\nÖnceki başarılı durum korunuyor.\\n' + errors.map(String).join('\\n').slice(0, 3000)}}];"}, 1440, 480, 2)
 node('Notify failure', 'emailSend', {**email_base, 'subject': '={{ $json.subject }}', 'text': '={{ $json.text }}'}, 1680, 480, 2.1)
 node('Mark execution failed', 'stopAndError', {'errorType': 'errorMessage', 'errorMessage': 'Fiyat takibi başarısız; önceki başarılı durum güncellenmedi.'}, 1920, 480)
-node('Setup and provenance', 'stickyNote', {'content': '## Nurederm — günlük laptop takibi\nBaşlangıç şablonu: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Configuration: e-posta adreslerini değiştir.\n2. Her iki Email düğümüne SMTP credential seç.\n3. CSV dizinini oluştur, kalıcı volume bağla ve yazma izni ver.\n4. Aktif/published akışı günde 09:00 Europe/Istanbul çalıştır.\n\nCSV: her çalışmada tüm ürünler + ISO tarih; karşılaştırma: son başarılı static data.\nManuel test static data saklamaz. İlk çalışmada tüm ürünler YENİ.\nHata çıkışları → bildirim → Stop And Error.\nCanlı SMTP ve n8n yürütme bu teslimde doğrulanmamıştır.', 'height': 430, 'width': 610}, 0, 430)
+node('Setup and provenance', 'stickyNote', {'content': '## FiyatRadar — günlük laptop takibi\nBaşlangıç şablonu: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Configuration: e-posta adreslerini değiştir.\n2. Her iki Email düğümüne SMTP credential seç.\n3. CSV dizinini oluştur, kalıcı volume bağla ve yazma izni ver.\n4. Aktif/published akışı günde 09:00 Europe/Istanbul çalıştır.\n\nCSV: her çalışmada tüm ürünler + ISO tarih; karşılaştırma: son başarılı static data.\nManuel test static data saklamaz. İlk çalışmada tüm ürünler YENİ.\nHata çıkışları → bildirim → Stop And Error.\nCanlı SMTP ve n8n yürütme bu teslimde doğrulanmamıştır.', 'height': 430, 'width': 610}, 0, 430)
 chain = ['Configuration', 'Discover pagination', 'Build page list', 'Fetch every page', 'Extract products', 'Compare snapshots', 'CSV rows', 'Create CSV', 'Archive dated CSV', 'Any changes']
 link('Daily 09 Istanbul', 'Configuration'); link('Manual preview', 'Configuration')
 for a, b in zip(chain, chain[1:]): link(a, b)
@@ -58,7 +58,7 @@ link('Notify changes', 'Commit successful snapshot')
 for n in nodes:
     if n.get('onError') == 'continueErrorOutput': link(n['name'], 'Prepare failure alert', 1)
 link('Prepare failure alert', 'Notify failure'); link('Notify failure', 'Mark execution failed')
-workflow = dict(name='Nurederm | Daily laptop price monitor', nodes=nodes, connections=connections, active=False,
+workflow = dict(name='FiyatRadar | Günlük Laptop Fiyat Takibi (disk sürümü)', nodes=nodes, connections=connections, active=False,
                 settings={'executionOrder': 'v1', 'timezone': 'Europe/Istanbul', 'executionTimeout': 900},
                 pinData={}, tags=[])
 (BASE / 'workflow-local.json').write_text(json.dumps(workflow, ensure_ascii=False, indent=2) + '\n')

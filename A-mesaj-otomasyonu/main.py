@@ -65,7 +65,7 @@ class Api:
 
     def _get(self, url):
         """JSON döndürür; HTTP 404 için None. Geçici hatalarda en fazla 3 deneme."""
-        request = Request(url, headers={'User-Agent': 'NuredermCase/1.0', 'Accept': 'application/json'})
+        request = Request(url, headers={'User-Agent': 'TalepMasasi/1.0', 'Accept': 'application/json'})
         for attempt in range(3):
             try:
                 with urlopen(request, timeout=10, context=self.context) as response:

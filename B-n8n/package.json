@@ -1,5 +1,5 @@
 {
-  "name": "nurederm-workflow-checks",
+  "name": "fiyatradar-workflow-checks",
   "private": true,
   "version": "1.0.0",
   "description": "n8n Code node ve HTML selector testleri; n8n yerine geçmez",

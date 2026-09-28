@@ -13,7 +13,7 @@ base = 'https://webscraper.io/test-sites/e-commerce/static/computers/laptops'
 
 
 def fetch(url):
-    request = Request(url, headers={'User-Agent':'NuredermCase/1.0'})
+    request = Request(url, headers={'User-Agent':'TalepMasasi/1.0'})
     with urlopen(request, timeout=20, context=context) as response:
         return response.read().decode('utf-8')
 

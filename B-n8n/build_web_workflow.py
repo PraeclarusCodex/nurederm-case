@@ -5,7 +5,7 @@ import uuid
 
 base = Path(__file__).resolve().parent
 w = json.loads((base / 'workflow-local.json').read_text())
-w['name'] = 'Nurederm | Web - Data Table price monitor'
+w['name'] = 'FiyatRadar | Günlük Laptop Fiyat Takibi'
 w['nodes'] = [n for n in w['nodes'] if n['name'] != 'Archive dated CSV']
 nodes = {n['name']: n for n in w['nodes']}
 nodes['Configuration']['parameters']['jsCode'] = "return [{json: {timestamp: new Date().toISOString(), fromEmail: 'configure@example.invalid', toEmail: 'configure@example.invalid'}}];"
@@ -41,11 +41,11 @@ return [{json:run}];
 add('Verify saved rows', 'code', {'mode':'runOnceForAllItems','jsCode':verify}, [2160,0])
 for name,x in [('CSV rows',2400),('Create CSV',2640),('Any changes',2880),('Notify changes',3120),('Commit successful snapshot',3360)]:
     nodes[name]['position'][0]=x
-nodes['Setup and provenance']['parameters']['content'] = '''## Web sürümü — Data Table kaydı
+nodes['Setup and provenance']['parameters']['content'] = '''## FiyatRadar — Data Table kaydı
 Şablon: Track changes of product prices (#837)
 https://n8n.io/workflows/837-track-changes-of-product-prices/
 
-1. Aynı projede nurederm_price_history tablosunu oluştur.
+1. Aynı projede fiyatradar_price_history tablosunu oluştur.
 2. Sütunlar: timestamp (String), name (String), price (Number), reviews (Number), url (String), currency (String).
 3. Save price history düğümünde tabloyu seç ve alan eşlemelerini kontrol et.
 4. Configuration e-posta adresleri + iki Email düğümünde SMTP hesabını ayarla.
