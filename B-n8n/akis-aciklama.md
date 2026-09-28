@@ -59,3 +59,9 @@ Yerel testler motor testinin yerine geçmez. Ayrıca kullanıcı ortamında Data
 - [n8n dosya erişimi](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.readwritefile/)
 - [n8n tetikleyicilerde durum saklama](https://blog.n8n.io/creating-triggers-for-n8n-workflows-using-polling/)
 - [Test sitesi](https://webscraper.io/test-sites/e-commerce/static/computers/laptops)
+
+## Ekran görüntüsü
+
+Canlı n8n (web) ortamında çalışan akış:
+
+![n8n workflow](ekran-goruntusu-workflow.png)
