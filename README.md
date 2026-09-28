@@ -29,7 +29,7 @@ flowchart LR
 | Görev e-postası | 28 Eylül 2026, 10:00 |
 | Başlangıç | 10:04 |
 | Teslim | 13:00'dan önce |
-| Yapay zekâ aracı | Codex (geliştirme, n8n kurulumu, testler) · Claude Code (Codex limiti dolunca: bonus, son kontroller, yayın) |
+| Yapay zekâ araçları | Codex, Claude Code |
 
 ## Depo yapısı
 
