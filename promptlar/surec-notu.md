@@ -20,3 +20,6 @@
 16. n8n'e import edildi; 20 sayfa tarama ve 117 satırlık CSV çalıştı. Disk yazımı `The file or directory does not exist` hatası verdi: n8n web sürümünde sunucu diski yok. Disk yerine Data Table kullanan sürüm ve 5 ek test hazırlandı.
 17. Data Table, Gmail SMTP, iki zamanlanmış çalışma ve ayrı bir kopyada erişilemeyen adresle hata e-postası canlı test edildi (bkz. `TEST-SONUCLARI.md`).
 18. Claude Code ile ürün arama bonusu ve 3 testi eklendi, depo düzenlenip yayınlandı.
+19. Sınıflandırmanın yalnızca verilen 15 mesaja göre ayarlandığı fark edildi. 30 yeni etiketli mesajla kör ölçüm 19/30 çıktı; kelime listeleri genişletildi.
+20. 15 mesajlık ikinci kör sette 10/15 çıktı ve iki istenmeyen etki mesajı devredilmedi. Kelime eklemek yerine "vücut bölgesi + kullanım sonrası" güvenlik ağı eklendi; gereksiz devir, kaçan şikâyete tercih edildi. İki set regresyon testine dönüştürüldü.
+21. GitHub Actions ile her push'ta testler çalıştırıldı; README adımları temiz bir klonda denendi.
