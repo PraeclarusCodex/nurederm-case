@@ -121,3 +121,9 @@ ama kanka bildiğin ai template'i her görselin bunlar o kadar da ai durmasını
 ```text
 bunları da sonra yap ve 10 üzeirinden puan ver tam puan olana kadar çalış. ve yaptıklarını da gite at
 ```
+
+## 17 — 12:16
+
+```text
+ama bizim otomize ettiğimiz alan bölüm a için de çalışıyor mu? bu sistem baştan sona adamların istedikleri biçimde işleyişini doğru yapıyor mu
+```
