@@ -71,7 +71,4 @@ for n in w['nodes']:
     if n.get('onError')=='continueErrorOutput':link(n['name'],'Prepare failure alert',1)
 link('Prepare failure alert','Notify failure');link('Notify failure','Mark execution failed')
 w['connections']=connections
-(base/'workflow-web.json').write_text(json.dumps(w,ensure_ascii=False,indent=2)+'\n')
-print('workflow-web.json:',len(w['nodes']),'nodes')
-
 (base/'workflow.json').write_text(json.dumps(w,ensure_ascii=False,indent=2)+'\n')

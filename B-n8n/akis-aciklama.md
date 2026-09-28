@@ -1,4 +1,4 @@
-# Günlük laptop fiyat takibi
+# B — Günlük laptop fiyat takibi (n8n)
 
 ## Şablon ve değişiklikler
 
@@ -34,13 +34,11 @@ Tablo kayıtları bildirimden önce yazılır. Bildirim hatasında satırlar kal
 
 ## Kurulum
 
-1. `workflow.json` dosyasını import edin; pasif gelir. `workflow-web.json` aynı teslimin alternatif adıdır. `workflow-local.json` eski disk varyantıdır.
+1. `workflow.json` dosyasını import edin; akış pasif gelir. (`workflow-local.json`, n8n web'de disk erişimi olmadığı için bırakılan ilk dosya tabanlı sürümdür.)
 2. Aynı n8n projesinde altı sütunlu `nurederm_price_history` tablosunu oluşturun: timestamp/name/url/currency String, price/reviews Number.
 3. Save price history içinde tabloyu seçin, Map Automatically kullanın ve Optimize Bulk kapalı kalsın.
 4. Configuration içinde gönderen/alıcıyı değiştirin; Notify changes ve Notify failure için SMTP credential seçin. Şifreyi JSON'a koymayın.
 5. Gerçek alıcıya e-posta gönderebileceğini bilerek kurulum testini yapın. Ardından Europe/Istanbul ve `0 9 * * *` ayarlarıyla Publish yapın.
-
-Ayrıntılı kurulum: [WEB-KURULUM.md](WEB-KURULUM.md).
 
 `$getWorkflowStaticData` durumunun kalıcılığı aktif tetikleyici yürütmelerine bağlıdır; manuel yürütmeler arasında kalıcılık beklenmemelidir. Import sonrası ilk aktif çalışma başlangıç kataloğunu oluşturur. Workflow kimliği değiştirilir veya static data temizlenirse ürünler yeniden yeni sayılır. Bu tercih ek veritabanı hesabı gerektirmemek içindir; yüksek hacim/eşzamanlılıkta işlemsel bir veritabanı tercih edilmelidir.
 
@@ -48,20 +46,18 @@ Ayrıntılı kurulum: [WEB-KURULUM.md](WEB-KURULUM.md).
 
 `npm test`: import JSON içindeki Code kaynaklarını çalıştırır; düğüm bağlantıları, hata dalları, sayfalama, yeni/değişmeyen/değişen fiyat, bozuk veri ve snapshot commit davranışını kontrol eder. `npm run test:live`: gerçek HTML üzerinde aynı CSS seçicileri ve kodu dener. [Canlı kontrol sonucu](live-check.json): 20 sayfa, 117 ürün.
 
-Yerel testler motor testinin yerine geçmez. Ayrıca kullanıcı ortamında Data Table, CSV, SMTP, iki zamanlanmış çalışma ve hata bildirimi doğrulandı: [CANLI-TESTLER.md](CANLI-TESTLER.md).
+Yerel testler motor testinin yerine geçmez. Ayrıca n8n web üzerinde Data Table, CSV, SMTP, iki zamanlanmış çalışma ve hata bildirimi canlı doğrulandı: [TEST-SONUCLARI.md](../TEST-SONUCLARI.md).
 
 ## Kaynaklar
 
 - [Şablon #837](https://n8n.io/workflows/837-track-changes-of-product-prices/)
 - [HTML node kaynak kodu](https://github.com/n8n-io/n8n/blob/master/packages/nodes-base/nodes/Html/Html.node.ts)
 - [CSV node kaynak kodu](https://github.com/n8n-io/n8n/blob/master/packages/nodes-base/nodes/Files/ConvertToFile/actions/spreadsheet.operation.ts)
-- [Dosya yazma node kaynak kodu](https://github.com/n8n-io/n8n/blob/master/packages/nodes-base/nodes/Files/ReadWriteFile/actions/write.operation.ts)
-- [n8n dosya erişimi](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.readwritefile/)
 - [n8n tetikleyicilerde durum saklama](https://blog.n8n.io/creating-triggers-for-n8n-workflows-using-polling/)
 - [Test sitesi](https://webscraper.io/test-sites/e-commerce/static/computers/laptops)
 
 ## Ekran görüntüsü
 
-Canlı n8n (web) ortamında çalışan akış:
+n8n web üzerinde çalışan akış:
 
 ![n8n workflow](ekran-goruntusu-workflow.png)
