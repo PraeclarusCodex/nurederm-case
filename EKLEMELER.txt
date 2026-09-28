@@ -1,0 +1,131 @@
+EKLEMELER - Brief'in zorunlu tuttuğu maddelerin dışında yaptıklarım ve amacı
+==========================================================================
+
+Brief'te "görevde kendi inisiyatifinle ekleme/geliştirme yapmakta özgürsün" deniyordu.
+Eklemeleri seçerken tek bir ölçütüm vardı: sistemi gerçek bir müşteri hizmetleri
+ekibinin güvenle kullanabileceği hâle yaklaştırmak. Görüntü için özellik eklemedim.
+
+
+BÖLÜM A - TALEP MASASI (müşteri mesajı otomasyonu)
+--------------------------------------------------
+
+1. Ürün arama (brief'teki bonus)
+   Ne: "urun-sorusu" ve "fiyat" mesajlarında DummyJSON /products/search ile arama.
+       Türkçe terimler İngilizceye çevrilir (nemlendirici -> moisturizer, lotion).
+       Taslağa yalnızca kozmetik kategorisinde olan ve adında aranan kelime geçen
+       ürünler girer.
+   Amaç: Müşteriye alakasız ürün önermemek. "cream" araması "Ice Cream" döndürüyor;
+       filtre olmasa taslağa dondurma girerdi. Eşleşme yoksa ürün uydurulmaz,
+       bu durum "not" alanına yazılır.
+
+2. İstenmeyen etki için güvenlik ağı
+   Ne: Mesaj bir vücut bölgesinden (yüz, cilt, göz, dudak...) ve kullanım
+       sonrasından ("kullandım", "sürdükten sonra"...) bahsediyorsa, belirti
+       kelimesi tanınmasa da temsilciye devredilir.
+   Amaç: Bir kozmetik firmasında en pahalı hata, bir yan etki şikâyetinin
+       gözden kaçmasıdır. Gereksiz bir devri, kaçan bir şikâyete bilerek
+       tercih ettim.
+
+3. Sınıflandırmanın ölçülmesi (45 yeni etiketli mesaj + degerlendir.py)
+   Ne: Verilen 15 mesajın dışında, farklı yazılmış 45 mesajla doğruluk ölçüldü.
+       İlk kör ölçüm 19/30 ve 10/15 çıktı; hatalar düzeltildi, setler
+       regresyon testine çevrildi.
+   Amaç: Kuralların sadece verilen 15 mesajı ezberlemediğini görmek. Bu ölçüm
+       iki gerçek güvenlik açığını ortaya çıkardı: iki yan etki mesajı
+       devredilmiyordu. Madde 2 bu bulgudan doğdu.
+
+4. Sağlam API istemcisi
+   Ne: 10 sn zaman aşımı, geçici hatalarda en fazla 3 deneme, aynı sipariş için
+       önbellek, açık TLS doğrulaması, API yanıtının alan ve tür kontrolü.
+   Amaç: API yavaşlarsa ya da bozuk veri dönerse sistem çökmesin, yanlış bilgi
+       vermesin; mesajı temsilciye devretsin.
+
+5. Uydurma bilgi üretmeme kuralı
+   Ne: API'de olmayan hiçbir bilgi taslağa yazılmaz: kargo firması, teslim
+       tarihi, para birimi, ürün içeriği, hayvan testi politikası.
+   Amaç: Müşteriye yanlış söz verilmesini önlemek. Bilinmeyen konu ya ekibe
+       sorulur ya da müşteriden ek bilgi istenir.
+
+6. Soruya özel taslaklar
+   Ne: İngilizce yazan müşteriye İngilizce taslak. Hem fiyat hem sipariş soran
+       mesajda iki soru da ele alınır. Genel kargo sorusu ve marka politikası
+       sorusu (hayvan testi) için ayrı, uygun taslaklar.
+   Amaç: Temsilcinin taslağı düzeltmeden kullanabilmesi.
+
+7. Etkileşimli özet sayfası (ozet.html)
+   Ne: Konu sayıları, devredilecek mesaj sayısı, arama, konu filtresi,
+       "yalnızca devredilenler" seçeneği, her karar için gerekçe.
+   Amaç: Brief tek sayfalık bir özet istiyordu. Sayfayı temsilcinin günlük iş
+       listesi olarak kullanılabilecek hâle getirdim; devredilecekler en üstte.
+
+8. Güvenlik önlemleri
+   Ne: Girdi dosyası doğrulaması, HTML kaçışlama (müşteri mesajındaki kod
+       sayfada çalışmaz), başka müşterinin siparişinde sahibinin kimliğinin de
+       gizlenmesi.
+   Amaç: Müşteri metni güvenilmeyen veridir; sayfaya ya da başka müşteriye
+       sızmamalı.
+
+
+BÖLÜM B - FIYATRADAR (n8n fiyat takibi)
+---------------------------------------
+
+1. Canlı çalıştırma (brief'te bonus)
+   Ne: Akış n8n web'de kuruldu. 117 satır Data Table'a yazıldı, Gmail ile
+       bildirim geldi, iki zamanlanmış çalışma denendi (117 yeni -> 0 değişiklik),
+       erişilemeyen adresle hata e-postası alındı. Ekran görüntüsü eklendi.
+   Amaç: Tasarımın kâğıt üzerinde değil, gerçekten çalıştığını göstermek.
+
+2. Önceki durum yalnızca başarılı çalışmanın sonunda kaydedilir
+   Ne: Karşılaştırma için tutulan "önceki fiyatlar" kaydı ancak tablo yazımı ve
+       e-posta başarılı olduktan sonra güncellenir.
+   Amaç: E-posta gitmediği bir günde fiyat değişikliği sessizce kaybolmasın;
+       ertesi gün yeniden bildirilsin.
+
+3. Yazılan satırların doğrulanması
+   Ne: Data Table'a yazılan satır sayısı, linkler ve alan türleri kontrol edilir.
+   Amaç: Eksik ya da hatalı kayıt "başarılı" görünmesin.
+
+4. Eksik veri koruması
+   Ne: Sayfa sayısı her gün yeniden bulunur (üst sınır 200). Gelen sayfa sayısı
+       planla eşleşmeli, her sayfada ürün olmalı, aynı ürün iki kez gelmemeli.
+   Amaç: Site yarım yüklenirse ürünler "kaldırıldı" ya da "yeni" sanılmasın,
+       yanlış alarm gitmesin.
+
+5. Siteye ve e-postaya karşı nazik davranış
+   Ne: İstekler arasında 250 ms bekleme, 20 sn zaman aşımı, 3 deneme. Değişiklik
+       yoksa e-posta atılmaz; varsa tek özet e-posta gider.
+   Amaç: Kaynak siteyi yormamak ve bildirimi spam'e çevirmemek.
+
+6. Fiyat artışı ve düşüşü birlikte
+   Ne: Şablon sadece fiyat düşüşünü izliyordu; bu akış yeni ürünleri ve her iki
+       yöndeki fiyat değişikliğini eski -> yeni fiyatla bildirir.
+   Amaç: Fiyat takibinin iş için anlamlı olması: zam da önemli bir bilgidir.
+
+7. CSV güvenliği
+   Ne: "=", "+", "-", "@" ile başlayan metinler kaçışlanır.
+   Amaç: CSV Excel'de açıldığında hücrenin formül olarak çalışmasını önlemek.
+
+8. n8n olmadan test edilebilirlik
+   Ne: Akıştaki kodlar n8n kurmadan çalıştırılabilen 17 testle ve canlı sitede
+       20 sayfa / 117 ürün kontrolüyle doğrulanır.
+   Amaç: Akışı değiştiren birinin bir şeyi bozup bozmadığını hemen görmesi.
+
+9. Kişisel bilgilerden arındırılmış teslim dosyası
+   Ne: workflow.json, çalışan akışın export'u; e-posta adresleri, hesap ve
+       tablo kimlikleri çıkarıldı.
+   Amaç: Repoyu herkese açık paylaşırken hesap bilgisi sızdırmamak.
+
+
+GENEL
+-----
+
+1. GitHub Actions (CI): Her push'ta A ve B testleri otomatik çalışır; README'deki
+   rozet sonucu gösterir. Amaç: "testler geçiyor" iddiasının herkes tarafından
+   doğrulanabilmesi.
+2. Temiz klon denemesi: README'deki kurulum adımları sıfırdan indirilmiş bir
+   kopyada çalıştırıldı. Amaç: değerlendiren kişinin ilk denemede takılmaması.
+3. Mimari şema (docs/mimari.svg): İki bölümün akışı tek şekilde.
+   Amaç: Kodu okumadan sistemin ne yaptığını anlatmak.
+4. Test sonuçları, süreç notu ve tam prompt dökümü: Neyin nasıl doğrulandığı,
+   hangi hataların çıkıp nasıl çözüldüğü ve yapay zekâ aracıyla nasıl
+   çalışıldığı açıkça kayıtlı. Amaç: sonucu değil süreci de görünür kılmak.

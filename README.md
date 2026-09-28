@@ -25,6 +25,7 @@ A-mesaj-otomasyonu/   main.py (Talep Masası) · talepler.json · ozet.html · t
 B-n8n/                workflow.json (FiyatRadar) · akis-aciklama.md · ekran görüntüsü · mantık testleri
 promptlar/            yapay zekâ aracına yazılan tüm promptlar (sırasıyla, olduğu gibi)
 TEST-SONUCLARI.md     otomatik ve canlı test sonuçları
+EKLEMELER.txt         brief'in dışında eklediklerim ve amaçları
 ```
 
 ## Nasıl çalıştırılır
@@ -111,6 +112,10 @@ Akış her gün 09:00'da (Europe/Istanbul) çalışır:
 Şablondan neyin değiştiği ve adım adım açıklama: [B-n8n/akis-aciklama.md](B-n8n/akis-aciklama.md).
 
 **Canlı olarak doğrulananlar** (n8n web): 117 satırın Data Table'a yazılması, CSV, Gmail SMTP ile bildirim, art arda iki zamanlanmış çalışma (117 yeni → 0 değişiklik), erişilemeyen bir adresle hata e-postası. Ekran görüntüsü: [B-n8n/ekran-goruntusu-workflow.png](B-n8n/ekran-goruntusu-workflow.png).
+
+## Brief dışı eklemeler
+
+Kendi inisiyatifimle eklediklerim ve her birinin amacı: [EKLEMELER.txt](EKLEMELER.txt).
 
 ## Nerede takıldım
 

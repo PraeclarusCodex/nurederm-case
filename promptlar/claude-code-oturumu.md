@@ -133,3 +133,9 @@ ama bizim otomize ettiğimiz alan bölüm a için de çalışıyor mu? bu sistem
 ```text
 B bölümü de aynısı için dimi
 ```
+
+## 19 — 12:19
+
+```text
+bizim ne eklediklerimizi de bi txt dosyası olarak yazalım istiyorsan ne eklenildi ve bundaki amaç ne
+```
