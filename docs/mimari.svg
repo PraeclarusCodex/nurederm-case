@@ -1,112 +1,84 @@
-<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='868' viewBox='0 0 1200 868'>
-<defs>
-<filter id='sh' x='-10%' y='-10%' width='120%' height='140%'><feDropShadow dx='0' dy='2' stdDeviation='2.5' flood-color='#17352c' flood-opacity='0.10'/></filter>
-<marker id='arr' viewBox='0 0 10 10' refX='8' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0 0 L10 5 L0 10 z' fill='context-stroke'/></marker>
-<marker id='arr-r' viewBox='0 0 10 10' refX='8' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0 0 L10 5 L0 10 z' fill='#d25757'/></marker>
-</defs>
-<rect width='1200' height='868' fill='#ffffff'/>
-<rect x='16' y='16' width='1168' height='420' rx='20' fill='#f6f7f2' stroke='#e2e7df'/>
-<rect x='40' y='40' width='155.2' height='24' rx='12' fill='#17352c'/>
-<text x='117.6' y='56' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11.5' font-weight='700' letter-spacing='1.2' fill='#b9d18f'>BÖLÜM A · PYTHON</text>
-<text x='40' y='98' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='24' font-weight='700' fill='#17352c'>Talep Masası</text>
-<text x='40' y='122' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='14' fill='#5d6f66'>Müşteri mesajından temsilciye hazır iş listesine</text>
-<rect x='1035.6' y='46' width='124.39999999999999' height='62' rx='12' fill='#ffffff' stroke='#e2e7df'/>
-<text x='1097.8' y='80' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='22' font-weight='700' fill='#17352c'>0</text>
-<text x='1097.8' y='98' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' fill='#5d6f66'>veri sızıntısı</text>
-<rect x='887.9999999999999' y='46' width='137.6' height='62' rx='12' fill='#ffffff' stroke='#e2e7df'/>
-<text x='956.7999999999998' y='80' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='22' font-weight='700' fill='#17352c'>5</text>
-<text x='956.7999999999998' y='98' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' fill='#5d6f66'>temsilciye devir</text>
-<rect x='812.9999999999999' y='46' width='65.0' height='62' rx='12' fill='#ffffff' stroke='#e2e7df'/>
-<text x='845.4999999999999' y='80' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='22' font-weight='700' fill='#17352c'>15</text>
-<text x='845.4999999999999' y='98' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' fill='#5d6f66'>mesaj</text>
-<rect x='40' y='256' width='160' height='58' rx='12' fill='#17352c' stroke='#17352c' stroke-width='1.5' filter='url(#sh)'/>
-<text x='120.0' y='278.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#ffffff'>15 mesaj</text>
-<text x='120.0' y='298.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#b9d18f'>WhatsApp · Instagram</text>
-<rect x='250' y='256' width='150' height='58' rx='12' fill='#ffffff' stroke='#cfd8d2' stroke-width='1.5' filter='url(#sh)'/>
-<text x='325.0' y='278.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Konu ata</text>
-<text x='325.0' y='298.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5d6f66'>6 konu · öncelikli</text>
-<rect x='460' y='166' width='210' height='58' rx='12' fill='#fdeedf' stroke='#e0913f' stroke-width='1.5' filter='url(#sh)'/>
-<text x='565.0' y='188.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#7a3e0a'>Hassas konu</text>
-<text x='565.0' y='208.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#a0581a'>iade · istenmeyen etki</text>
-<rect x='460' y='256' width='210' height='58' rx='12' fill='#eef4e4' stroke='#96ac65' stroke-width='1.5' filter='url(#sh)'/>
-<text x='565.0' y='278.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Sipariş sorgusu</text>
-<text x='565.0' y='298.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5b7336'>/carts/{id} + sahiplik</text>
-<rect x='460' y='346' width='210' height='58' rx='12' fill='#eef4e4' stroke='#96ac65' stroke-width='1.5' filter='url(#sh)'/>
-<text x='565.0' y='368.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Ürün arama</text>
-<text x='565.0' y='388.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5b7336'>/products/search</text>
-<rect x='750' y='166' width='190' height='58' rx='12' fill='#fdeedf' stroke='#e0913f' stroke-width='1.5' filter='url(#sh)'/>
-<text x='845.0' y='188.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#7a3e0a'>Temsilciye devret</text>
-<text x='845.0' y='208.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#a0581a'>devret: true</text>
-<rect x='750' y='301' width='190' height='58' rx='12' fill='#e2f2e7' stroke='#3f8f5f' stroke-width='1.5' filter='url(#sh)'/>
-<text x='845.0' y='323.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Cevap taslağı</text>
-<text x='845.0' y='343.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#2f6e48'>ürünler + tutar / öneri</text>
-<rect x='1000' y='256' width='160' height='58' rx='12' fill='#17352c' stroke='#17352c' stroke-width='1.5' filter='url(#sh)'/>
-<text x='1080.0' y='278.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#ffffff'>Çıktılar</text>
-<text x='1080.0' y='298.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#b9d18f'>talepler.json · ozet.html</text>
-<path d='M200 285.0 L244 285.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M400 285.0 C430 285.0 425 195.0 454 195.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M400 285.0 L454 285.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M400 285.0 C430 285.0 425 375.0 454 375.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M670 195.0 L744 195.0' fill='none' stroke='#e0913f' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M670 275.0 C710 275.0 705 209.0 744 209.0' fill='none' stroke='#e0913f' stroke-width='1.8' marker-end='url(#arr)'/>
-<rect x='638.3' y='243' width='139.39999999999998' height='20' rx='10' fill='#ffffff' stroke='#e3e8e4'/>
-<text x='708' y='257' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11.5' fill='#a0581a'>başka müşteri / yok</text>
-<path d='M670 295.0 C710 295.0 705 322.0 744 322.0' fill='none' stroke='#3f8f5f' stroke-width='1.8' marker-end='url(#arr)'/>
-<rect x='668.0' y='318.0' width='80.0' height='20' rx='10' fill='#ffffff' stroke='#e3e8e4'/>
-<text x='708' y='332.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11.5' fill='#2f6e48'>sahiplik ✓</text>
-<path d='M670 375.0 C710 375.0 705 340.0 744 340.0' fill='none' stroke='#3f8f5f' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M940 195.0 C975 195.0 965 275.0 994 275.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M940 330.0 C975 330.0 965 295.0 994 295.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<rect x='16' y='452' width='1168' height='400' rx='20' fill='#f6f7f2' stroke='#e2e7df'/>
-<rect x='40' y='476' width='130.6' height='24' rx='12' fill='#17352c'/>
-<text x='105.3' y='492' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11.5' font-weight='700' letter-spacing='1.2' fill='#b9d18f'>BÖLÜM B · N8N</text>
-<text x='40' y='534' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='24' font-weight='700' fill='#17352c'>FiyatRadar</text>
-<text x='40' y='558' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='14' fill='#5d6f66'>Laptop kataloğunun günlük fiyat takibi</text>
-<rect x='1063' y='482' width='97' height='62' rx='12' fill='#ffffff' stroke='#e2e7df'/>
-<text x='1111.5' y='516' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='22' font-weight='700' fill='#17352c'>09:00</text>
-<text x='1111.5' y='534' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' fill='#5d6f66'>her gün</text>
-<rect x='982' y='482' width='71' height='62' rx='12' fill='#ffffff' stroke='#e2e7df'/>
-<text x='1017.5' y='516' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='22' font-weight='700' fill='#17352c'>117</text>
-<text x='1017.5' y='534' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' fill='#5d6f66'>ürün</text>
-<rect x='907.0' y='482' width='65.0' height='62' rx='12' fill='#ffffff' stroke='#e2e7df'/>
-<text x='939.5' y='516' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='22' font-weight='700' fill='#17352c'>20</text>
-<text x='939.5' y='534' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' fill='#5d6f66'>sayfa</text>
-<rect x='40' y='612' width='138' height='58' rx='12' fill='#17352c' stroke='#17352c' stroke-width='1.5' filter='url(#sh)'/>
-<text x='109.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#ffffff'>Her gün 09:00</text>
-<text x='109.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#b9d18f'>Europe/Istanbul</text>
-<rect x='204' y='612' width='138' height='58' rx='12' fill='#eef4e4' stroke='#96ac65' stroke-width='1.5' filter='url(#sh)'/>
-<text x='273.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Sayfaları tara</text>
-<text x='273.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5b7336'>?page=1…20</text>
-<rect x='368' y='612' width='138' height='58' rx='12' fill='#eef4e4' stroke='#96ac65' stroke-width='1.5' filter='url(#sh)'/>
-<text x='437.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Ürünleri çıkar</text>
-<text x='437.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5b7336'>fiyat → sayı</text>
-<rect x='532' y='612' width='138' height='58' rx='12' fill='#ffffff' stroke='#cfd8d2' stroke-width='1.5' filter='url(#sh)'/>
-<text x='601.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Karşılaştır</text>
-<text x='601.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5d6f66'>önceki çalışma</text>
-<rect x='696' y='612' width='138' height='58' rx='12' fill='#eef4e4' stroke='#96ac65' stroke-width='1.5' filter='url(#sh)'/>
-<text x='765.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Data Table</text>
-<text x='765.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5b7336'>+ CSV, tarihli</text>
-<rect x='860' y='612' width='138' height='58' rx='12' fill='#ffffff' stroke='#cfd8d2' stroke-width='1.5' filter='url(#sh)'/>
-<text x='929.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>Değişiklik?</text>
-<text x='929.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5d6f66'>yeni · fiyatı değişen</text>
-<rect x='1024' y='612' width='138' height='58' rx='12' fill='#e2f2e7' stroke='#3f8f5f' stroke-width='1.5' filter='url(#sh)'/>
-<text x='1093.0' y='634.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#17352c'>E-posta</text>
-<text x='1093.0' y='654.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#2f6e48'>tek özet bildirim</text>
-<path d='M178 641.0 L198 641.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M342 641.0 L362 641.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M506 641.0 L526 641.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M670 641.0 L690 641.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M834 641.0 L854 641.0' fill='none' stroke='#8a9a90' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M998 641.0 L1018 641.0' fill='none' stroke='#3f8f5f' stroke-width='1.8' marker-end='url(#arr)'/>
-<text x='1011.0' y='606' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='11' font-weight='600' fill='#2f6e48'>evet</text>
-<rect x='40' y='752' width='760' height='58' rx='12' fill='#fde7e7' stroke='#d25757' stroke-width='1.5' filter='url(#sh)'/>
-<text x='420.0' y='786.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#7a1f1f'>Hata dalı: site açılmaz · sayfa eksik · ürün yok · kayıt ya da e-posta hatası</text>
-<rect x='850' y='752' width='310' height='58' rx='12' fill='#fde7e7' stroke='#d25757' stroke-width='1.5' filter='url(#sh)'/>
-<text x='1005.0' y='786.0' text-anchor='middle' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='15' font-weight='600' fill='#7a1f1f'>Hata e-postası → çalışma BAŞARISIZ</text>
-<path d='M800 781.0 L844 781.0' fill='none' stroke='#d25757' stroke-width='1.8' marker-end='url(#arr)'/>
-<path d='M273.0 674 L273.0 746' fill='none' stroke='#d25757' stroke-width='1.8' stroke-dasharray='5 5' marker-end='url(#arr-r)'/>
-<path d='M437.0 674 L437.0 746' fill='none' stroke='#d25757' stroke-width='1.8' stroke-dasharray='5 5' marker-end='url(#arr-r)'/>
-<path d='M601.0 674 L601.0 746' fill='none' stroke='#d25757' stroke-width='1.8' stroke-dasharray='5 5' marker-end='url(#arr-r)'/>
-<path d='M765.0 674 L765.0 746' fill='none' stroke='#d25757' stroke-width='1.8' stroke-dasharray='5 5' marker-end='url(#arr-r)'/>
-<text x='40' y='837' font-family='Segoe UI, -apple-system, Helvetica, Arial, sans-serif' font-size='12' fill='#5d6f66'>Başlangıç şablonu: n8n #837 “Track changes of product prices” · Önceki durum yalnızca başarılı çalışmadan sonra güncellenir.</text>
+<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='737' viewBox='0 0 1100 737'>
+<defs><marker id='a' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' orient='auto'><path d='M0 1 L9 5 L0 9' fill='none' stroke='#222' stroke-width='1.3'/></marker></defs>
+<rect width='1100' height='737' fill='#ffffff'/>
+<text x='40' y='34' text-anchor='start' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='14' font-weight='bold' fill='#222' >(a) Talep Masası — müşteri mesajlarının işlenmesi</text>
+<rect x='40' y='152.0' width='120' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='100.0' y='172.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >mesajlar.json</text>
+<text x='100.0' y='189.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>15 kayıt</text>
+<polygon points='265,133.0 340.0,175 265,217.0 190.0,175' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='265' y='173' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='12' font-weight='normal' fill='#222' >Konu</text>
+<text x='265' y='188' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >sınıflandırma</text>
+<rect x='420' y='62' width='190' height='46' fill='#f2f2f2' stroke='#222' stroke-width='1'/>
+<text x='515.0' y='82.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Hassas konu</text>
+<text x='515.0' y='99.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>iade-sikayet, istenmeyen-etki</text>
+<rect x='420' y='152.0' width='190' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='515.0' y='172.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >GET /carts/{id}</text>
+<text x='515.0' y='189.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>siparis-durumu</text>
+<rect x='420' y='265' width='190' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='515.0' y='285.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >GET /products/search</text>
+<text x='515.0' y='302.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>urun-sorusu, fiyat</text>
+<polygon points='740,133.0 810.0,175 740,217.0 670.0,175' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='740' y='173' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='12' font-weight='normal' fill='#222' >userId =</text>
+<text x='740' y='188' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >musteri_id ?</text>
+<rect x='870' y='62' width='190' height='46' fill='#f2f2f2' stroke='#222' stroke-width='1'/>
+<text x='965.0' y='82.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Temsilciye devret</text>
+<text x='965.0' y='99.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>devret: true</text>
+<rect x='870' y='265' width='190' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='965.0' y='285.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Cevap taslağı</text>
+<text x='965.0' y='302.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>ürünler, tutar / ürün önerisi</text>
+<path d='M160 175 L188 175' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M265 133 L265 85 L418 85' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M340 175 L418 175' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M265 217 L265 288 L418 288' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M610 85 L868 85' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M610 175 L668 175' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M740 133 L740 110 L868 110' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<text x='752' y='150' text-anchor='start' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >hayır / bulunamadı</text>
+<path d='M740 217 L740 275 L868 275' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<text x='752' y='235' text-anchor='start' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >evet</text>
+<path d='M610 300 L868 300' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<text x='965' y='345' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >→ talepler.json, ozet.html</text>
+<line x1='40' y1='372' x2='1060' y2='372' stroke='#bbb' stroke-width='0.8'/>
+<text x='40' y='416' text-anchor='start' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='14' font-weight='bold' fill='#222' >(b) FiyatRadar — n8n ile günlük fiyat takibi</text>
+<rect x='40' y='479.0' width='118' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='99.0' y='499.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Zamanlayıcı</text>
+<text x='99.0' y='516.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>her gün 09:00</text>
+<rect x='190' y='479.0' width='118' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='249.0' y='499.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >HTTP Request</text>
+<text x='249.0' y='516.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>?page=1…N</text>
+<rect x='340' y='479.0' width='118' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='399.0' y='499.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >HTML Extract</text>
+<text x='399.0' y='516.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>ad, fiyat, yorum, link</text>
+<rect x='490' y='479.0' width='118' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='549.0' y='499.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Karşılaştırma</text>
+<text x='549.0' y='516.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>önceki snapshot</text>
+<path d='M640 480 A59.0 8 0 0 1 758 480 L758 524 A59.0 8 0 0 1 640 524 Z' fill='#fff' stroke='#222'/>
+<path d='M640 480 A59.0 8 0 0 0 758 480' fill='none' stroke='#222'/>
+<text x='699.0' y='504.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Data Table</text>
+<text x='699.0' y='519.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>+ CSV</text>
+<polygon points='849.0,462.0 914.0,502 849.0,542.0 784.0,502' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='849.0' y='500' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='12' font-weight='normal' fill='#222' >Değişiklik</text>
+<text x='849.0' y='515' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >var mı?</text>
+<rect x='950' y='479.0' width='110' height='46' fill='#fff' stroke='#222' stroke-width='1'/>
+<text x='1005.0' y='499.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >E-posta</text>
+<text x='1005.0' y='516.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>bildirim</text>
+<path d='M158 502 L188 502' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M308 502 L338 502' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M458 502 L488 502' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M608 502 L638 502' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M758 502 L782.0 502' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<path d='M914.0 502 L948 502' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<text x='932.0' y='494' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >evet</text>
+<rect x='340' y='612' width='420' height='46' fill='#f2f2f2' stroke='#222' stroke-width='1' stroke-dasharray='4 3'/>
+<text x='550.0' y='632.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Hata dalı</text>
+<text x='550.0' y='649.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>site erişilemez, eksik sayfa, ürün yok, kayıt hatası</text>
+<rect x='830' y='612' width='230' height='46' fill='#f2f2f2' stroke='#222' stroke-width='1'/>
+<text x='945.0' y='632.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='13' font-weight='normal' fill='#222' >Hata e-postası</text>
+<text x='945.0' y='649.0' text-anchor='middle' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' font-style='italic'>yürütme başarısız işaretlenir</text>
+<path d='M249.0 525.0 L249.0 560 L350 560 L350 610' fill='none' stroke='#222' stroke-width='1' stroke-dasharray='4 3' marker-end='url(#a)'/>
+<path d='M399.0 525.0 L399.0 610' fill='none' stroke='#222' stroke-width='1' stroke-dasharray='4 3' marker-end='url(#a)'/>
+<path d='M549.0 525.0 L549.0 610' fill='none' stroke='#222' stroke-width='1' stroke-dasharray='4 3' marker-end='url(#a)'/>
+<path d='M699.0 532 L699.0 610' fill='none' stroke='#222' stroke-width='1' stroke-dasharray='4 3' marker-end='url(#a)'/>
+<path d='M760 635.0 L828 635.0' fill='none' stroke='#222' stroke-width='1' marker-end='url(#a)'/>
+<text x='40' y='717' text-anchor='start' font-family='Helvetica Neue, Helvetica, Arial, sans-serif' font-size='11' font-weight='normal' fill='#666' >Başlangıç şablonu: n8n #837 “Track changes of product prices”. Snapshot yalnızca başarılı bir çalışmanın sonunda güncellenir.</text>
 </svg>

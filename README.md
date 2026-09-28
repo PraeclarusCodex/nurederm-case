@@ -7,6 +7,8 @@
 
 ![Talep Masası ve FiyatRadar mimarisi](docs/mimari.svg)
 
+*Şekil 1. (a) Talep Masası mesaj işleme akışı; (b) FiyatRadar n8n akışı ve hata dalı.*
+
 | | |
 |---|---|
 | Görev e-postası | 28 Eylül 2026, 10:00 |
