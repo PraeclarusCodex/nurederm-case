@@ -1,0 +1,756 @@
+{
+  "name": "Nurederm | Web - Data Table price monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "ea92f250-bdf1-456c-85c0-aca346bf68f5",
+      "name": "Daily 09 Istanbul",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -3536,
+        32
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "c39ff855-0947-40eb-89dc-94e09564babf",
+      "name": "Manual preview",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3536,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "return [{json: {timestamp: new Date().toISOString(), fromEmail: 'configure@example.invalid', toEmail: 'configure@example.invalid'}}];"
+      },
+      "id": "ef9f9e5c-e800-45f4-948c-1e10b8e9661b",
+      "name": "Configuration",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3296,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://webscraper.io/test-sites/e-commerce/static/computers/laptops",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 20000
+        }
+      },
+      "id": "adbb425a-2c37-4591-af75-842575c40b00",
+      "name": "Discover pagination",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3056,
+        32
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// All pagination links include the last page on this static test site.\nconst html = $input.first().json.data;\nif (typeof html !== 'string' || !html.includes('static-pagination')) {\n  throw new Error('Sayfalama alanı bulunamadı; site/HTML yapısı değişmiş olabilir.');\n}\nconst pages = [...html.matchAll(/href=[\"'][^\"']*\\/static\\/computers\\/laptops\\?page=(\\d+)[\"']/g)]\n  .map(match => Number(match[1]));\nconst lastPage = Math.max(1, ...pages);\nif (!Number.isInteger(lastPage) || lastPage > 200) throw new Error('Sayfa güvenlik sınırı aşıldı.');\nreturn Array.from({length: lastPage}, (_, i) => ({json: {\n  page: i + 1,\n  totalPages: lastPage,\n  url: `https://webscraper.io/test-sites/e-commerce/static/computers/laptops?page=${i + 1}`,\n}}));\n"
+      },
+      "id": "504c7fc6-e2e8-4993-b1de-841994125cfa",
+      "name": "Build page list",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2816,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 250
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 20000
+        }
+      },
+      "id": "c14839e6-ea4d-4164-bb06-1cdaaa9f72c7",
+      "name": "Fetch every page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2576,
+        32
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "names",
+              "cssSelector": ".thumbnail a.title",
+              "returnValue": "attribute",
+              "attribute": "title",
+              "returnArray": true
+            },
+            {
+              "key": "prices",
+              "cssSelector": ".thumbnail [itemprop=\"price\"]",
+              "returnArray": true
+            },
+            {
+              "key": "reviews",
+              "cssSelector": ".thumbnail [itemprop=\"reviewCount\"]",
+              "returnArray": true
+            },
+            {
+              "key": "links",
+              "cssSelector": ".thumbnail a.title",
+              "returnValue": "attribute",
+              "attribute": "href",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true,
+          "cleanUpText": true
+        }
+      },
+      "id": "1b946dc5-7b6c-482f-b97f-213bdd08b4fc",
+      "name": "Extract products",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -2336,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const pages = $input.all();\nconst planned = $('Build page list').all();\nif (!pages.length || pages.length !== planned.length) throw new Error('Eksik sayfa; kısmi sonuç kaydedilmeyecek.');\nconst timestamp = $('Configuration').first().json.timestamp;\nconst products = [];\nconst seen = new Set();\nfor (let pageIndex = 0; pageIndex < pages.length; pageIndex++) {\n  const page = pages[pageIndex].json;\n  const fields = ['names', 'prices', 'reviews', 'links'];\n  if (fields.some(key => !Array.isArray(page[key])) || !page.names.length ||\n      fields.some(key => page[key].length !== page.names.length)) {\n    throw new Error(`Sayfa ${pageIndex + 1}: boş ürün listesi veya eksik alan.`);\n  }\n  for (let i = 0; i < page.names.length; i++) {\n    const name = String(page.names[i]).trim();\n    const rawPrice = String(page.prices[i]).trim();\n    const rawReviews = String(page.reviews[i]).trim();\n    const href = String(page.links[i]);\n    if (!name || !/^\\$(?:\\d+|\\d{1,3}(?:,\\d{3})+)(?:\\.\\d{1,2})?$/.test(rawPrice) || !/^\\d+$/.test(rawReviews) ||\n        !/^\\/test-sites\\/e-commerce\\/static\\/product\\/\\d+$/.test(href)) {\n      throw new Error(`Sayfa ${pageIndex + 1}: ürün alanları doğrulanamadı.`);\n    }\n    const price = Number(rawPrice.replace(/[$,]/g, ''));\n    const reviews = Number(rawReviews);\n    const url = 'https://webscraper.io' + href;\n    if (!Number.isFinite(price) || price < 0 || !Number.isSafeInteger(reviews)) throw new Error('Geçersiz sayısal değer.');\n    if (seen.has(url)) throw new Error('Yinelenen ürün: sayfalama tutarsız; önceki durum korunacak.');\n    seen.add(url);\n    products.push({timestamp, name, price, reviews, url, currency: 'USD'});\n  }\n}\nconst state = $getWorkflowStaticData('global');\nconst previous = state.previous || {};\nconst snapshot = {};\nconst changes = [];\nfor (const product of products) {\n  const old = previous[product.url];\n  snapshot[product.url] = {price: product.price, name: product.name};\n  if (!old) changes.push({...product, change: 'new', oldPrice: null});\n  else if (Math.round(old.price * 100) !== Math.round(product.price * 100)) {\n    changes.push({...product, change: 'price_changed', oldPrice: old.price});\n  }\n}\nconst text = [`Laptop fiyat takibi — ${timestamp}`, `${pages.length} sayfa / ${products.length} ürün / ${changes.length} değişiklik`,\n  state.previous ? 'Önceki başarılı çalışmayla karşılaştırıldı.' : 'İlk çalışma: tüm ürünler yeni olarak bildiriliyor.', '',\n  ...changes.map(p => `${p.change === 'new' ? 'YENİ' : 'FİYAT'} | ${p.name} | ${p.oldPrice === null ? '—' : '$' + p.oldPrice.toFixed(2)} → $${p.price.toFixed(2)} | ${p.url}`)\n].join('\\n');\n// State is only committed AFTER file writing and any notification succeed.\nreturn [{json: {timestamp, products, snapshot, changes, hasChanges: changes.length > 0, text,\n  subject: `Laptop takip: ${changes.length} yeni/fiyatı değişen ürün`}}];\n"
+      },
+      "id": "24d5b43f-db7b-428a-96d8-fad5bcfa6212",
+      "name": "Compare snapshots",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2096,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const run = $input.first().json;\n// Prevent spreadsheet formula evaluation in text cells; prices remain numbers.\nconst safeText = value => /^[=+@\\-\\t\\r\\n]/.test(value) ? \"'\" + value : value;\nreturn run.products.map(p => ({json: {...p, name: safeText(p.name)}}));\n"
+      },
+      "id": "26ba1fd9-8863-41ed-8e29-2414b9f0e7a0",
+      "name": "CSV rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1136,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {
+          "fileName": "laptops.csv",
+          "headerRow": true
+        }
+      },
+      "id": "399aeed2-240d-438c-b9c6-cd607cf2b718",
+      "name": "Create CSV",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -896,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "has-changes",
+              "leftValue": "={{ $('Compare snapshots').first().json.hasChanges }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0da32d88-ed78-4e0d-a3a9-90633f6a0def",
+      "name": "Any changes",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -656,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $('Configuration').first().json.fromEmail }}",
+        "toEmail": "={{ $('Configuration').first().json.toEmail }}",
+        "subject": "={{ $('Compare snapshots').first().json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $('Compare snapshots').first().json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "c586f182-38bd-44e1-83f1-db06bd040b9f",
+      "name": "Notify changes",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        -416,
+        -48
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const run = $('Compare snapshots').first().json;\nconst state = $getWorkflowStaticData('global');\nstate.previous = run.snapshot;\nstate.lastSuccessAt = run.timestamp;\nreturn [{json: {success: true, timestamp: run.timestamp, products: run.products.length,\n  changes: run.changes.length, note: 'Kalıcı durum yalnızca aktif zamanlanmış çalışmalarda saklanır.'}}];\n"
+      },
+      "id": "d88fd6c6-cee8-4901-84ee-2391cca78779",
+      "name": "Commit successful snapshot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const errors = $input.all().map(i => i.json.error?.message || i.json.error || i.json.message || 'Bilinmeyen hata'); return [{json:{subject:'HATA: Laptop fiyat takibi tamamlanamadı', text: 'Çalışma: ' + $execution.id + '\\nÖnceki başarılı durum korunuyor.\\n' + errors.map(String).join('\\n').slice(0, 3000)}}];"
+      },
+      "id": "5dab82af-bc80-4f9c-b441-73232975de78",
+      "name": "Prepare failure alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2096,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $('Configuration').first().json.fromEmail }}",
+        "toEmail": "={{ $('Configuration').first().json.toEmail }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "80a857fb-fe7c-4235-8ee4-1df033569cdc",
+      "name": "Notify failure",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        -1856,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "Fiyat takibi başarısız; önceki başarılı durum güncellenmedi."
+      },
+      "id": "991ed3de-0c6e-4b4a-b16b-8f56835c6f5d",
+      "name": "Mark execution failed",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -1616,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Web sürümü — Data Table kaydı\nŞablon: Track changes of product prices (#837)\nhttps://n8n.io/workflows/837-track-changes-of-product-prices/\n\n1. Aynı projede nurederm_price_history tablosunu oluştur.\n2. Sütunlar: timestamp (String), name (String), price (Number), reviews (Number), url (String), currency (String).\n3. Save price history düğümünde tabloyu seç ve alan eşlemelerini kontrol et.\n4. Configuration e-posta adresleri + iki Email düğümünde SMTP hesabını ayarla.\n\nGünlük kalıcı kayıt: Data Table. CSV: isteğe bağlı indirme çıktısı.\nKlasör, SSH veya sunucu dosya sistemi erişimi gerekmez.\nKarşılaştırma: son başarılı aktif çalışmanın static data kaydı.\nManuel çalışmada static data kalıcılığı bekleme.\nTablo kayıtları tarihli geçmiş içerir; tekrar çalıştırma yeni satırlar ekler.\nData Table, SMTP ve zamanlanmış karşılaştırma canlı doğrulandı (28.09.2026).\nYeni ortamda tablo ve SMTP bağlantılarını yeniden seçin.",
+        "height": 430,
+        "width": 610
+      },
+      "id": "a8563b1e-dcd8-4110-81d2-5e8cbaceb489",
+      "name": "Setup and provenance",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3536,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.products.map(p => ({json: {...p}}));"
+      },
+      "id": "a278313b-5ffe-4c34-a748-c6558cb9ab5f",
+      "name": "Table rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1856,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "optimizeBulk": false
+        },
+        "resource": "row",
+        "operation": "insert"
+      },
+      "id": "98381a2b-0186-4176-a33d-d041671c4fb8",
+      "name": "Save price history",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -1616,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const run = $('Compare snapshots').first().json;\nconst rows = $input.all().map(i => i.json);\nif (rows.length !== run.products.length) throw new Error('Tabloya eksik kayıt: önceki başarılı durum korunuyor.');\nconst expected = new Map(run.products.map(p => [p.url, p]));\nconst seen = new Set();\nfor (const row of rows) {\n  const p = expected.get(row.url);\n  if (!p || seen.has(row.url) || ['timestamp','name','price','reviews','currency'].some(k => row[k] !== p[k])) {\n    throw new Error('Tablo yazım sonucu doğrulanamadı; sütun türlerini ve eşlemeyi kontrol edin.');\n  }\n  seen.add(row.url);\n}\nreturn [{json:run}];\n"
+      },
+      "id": "e7a78350-515c-4198-836e-230934cb8db5",
+      "name": "Verify saved rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1376,
+        32
+      ],
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 09 Istanbul": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual preview": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuration": {
+      "main": [
+        [
+          {
+            "node": "Discover pagination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discover pagination": {
+      "main": [
+        [
+          {
+            "node": "Build page list",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build page list": {
+      "main": [
+        [
+          {
+            "node": "Fetch every page",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch every page": {
+      "main": [
+        [
+          {
+            "node": "Extract products",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract products": {
+      "main": [
+        [
+          {
+            "node": "Compare snapshots",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare snapshots": {
+      "main": [
+        [
+          {
+            "node": "Table rows",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Table rows": {
+      "main": [
+        [
+          {
+            "node": "Save price history",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save price history": {
+      "main": [
+        [
+          {
+            "node": "Verify saved rows",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify saved rows": {
+      "main": [
+        [
+          {
+            "node": "CSV rows",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSV rows": {
+      "main": [
+        [
+          {
+            "node": "Create CSV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create CSV": {
+      "main": [
+        [
+          {
+            "node": "Any changes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any changes": {
+      "main": [
+        [
+          {
+            "node": "Notify changes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Commit successful snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify changes": {
+      "main": [
+        [
+          {
+            "node": "Commit successful snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Commit successful snapshot": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Prepare failure alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare failure alert": {
+      "main": [
+        [
+          {
+            "node": "Notify failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify failure": {
+      "main": [
+        [
+          {
+            "node": "Mark execution failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Istanbul",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

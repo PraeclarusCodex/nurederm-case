@@ -1,0 +1,20 @@
+{
+  "template_id": 837,
+  "name": "Track changes of product prices",
+  "url": "https://n8n.io/workflows/837-track-changes-of-product-prices/",
+  "retrieved_at": "2026-09-28",
+  "source_endpoint": "https://api.n8n.io/api/templates/workflows/837",
+  "approach": "Original workflow JSON inspected; node roles and processing pattern adapted and rebuilt with modern nodes. Not a byte-for-byte copy.",
+  "original_node_types": [
+    "n8n-nodes-base.cron",
+    "n8n-nodes-base.emailSend",
+    "n8n-nodes-base.executeCommand",
+    "n8n-nodes-base.functionItem",
+    "n8n-nodes-base.htmlExtract",
+    "n8n-nodes-base.httpRequest",
+    "n8n-nodes-base.if",
+    "n8n-nodes-base.moveBinaryData",
+    "n8n-nodes-base.readBinaryFile",
+    "n8n-nodes-base.writeBinaryFile"
+  ]
+}

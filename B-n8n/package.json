@@ -1,0 +1,16 @@
+{
+  "name": "nurederm-workflow-checks",
+  "private": true,
+  "version": "1.0.0",
+  "description": "n8n Code node ve HTML selector testleri; n8n yerine geçmez",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "test:live": "python3 tests/fetch_pages.py && node tests/check_live.cjs"
+  },
+  "devDependencies": {
+    "cheerio": "1.0.0"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}
