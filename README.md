@@ -105,6 +105,7 @@ Ayrıntılı kayıt: [promptlar/surec-notu.md](promptlar/surec-notu.md).
 
 ## Bitiremediklerim / sınırlar
 
+- Geliştirme sırasında git kullanmadım; commit'ler teslim aşamasında mantıksal adımlara bölündü. Bir sonraki işte baştan küçük commit'lerle ilerlerim.
 - Konu ataması kural tabanlı. Farklı yazım biçimleri için daha geniş bir değerlendirme seti ya da bir LLM sınıflandırıcı gerekir.
 - `musteri_id` bu görevde güvenilir girdi olarak kabul edildi. Gerçek WhatsApp/Instagram entegrasyonunda kimlik sunucu tarafında doğrulanmalı.
 - n8n'deki karşılaştırma durumu workflow static data üzerinde tutuluyor. Bu, günde tek çalışma için tasarlandı, eşzamanlı çalıştırma desteklenmiyor. 09:00'daki ilk gerçek zamanlanmış çalışma teslimden sonra gerçekleşecek.
