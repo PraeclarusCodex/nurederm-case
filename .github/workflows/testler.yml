@@ -1,0 +1,28 @@
+name: testler
+
+on: [push, pull_request]
+
+jobs:
+  a-mesaj-otomasyonu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s A-mesaj-otomasyonu/tests -v
+      - run: python A-mesaj-otomasyonu/degerlendir.py
+
+  b-n8n:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: B-n8n
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci --ignore-scripts
+      - run: npm test
