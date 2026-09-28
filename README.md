@@ -1,6 +1,28 @@
-# Nurederm Uygulama Görevi
+# Talep Masası + FiyatRadar
 
-Müşteri mesajı otomasyonu (Bölüm A) ve n8n ile günlük laptop fiyat takibi (Bölüm B).
+- **Talep Masası (Bölüm A):** WhatsApp ve Instagram'dan gelen müşteri mesajlarını konulara ayırır, siparişi sahiplik kontrolüyle sorgular, hassas konuları temsilciye devreder ve cevap taslağı hazırlar.
+- **FiyatRadar (Bölüm B):** Her gün laptop kataloğunun tüm sayfalarını tarayan, fiyat geçmişini tutan ve değişiklikleri e-postayla bildiren n8n akışı.
+
+## Mimari
+
+```mermaid
+flowchart LR
+    subgraph A["Talep Masası (Python)"]
+        M[mesajlar.json] --> K{Konu ata}
+        K -->|iade / istenmeyen etki| D[Temsilciye devret]
+        K -->|sipariş| C["/carts/{id}"]
+        C -->|userId ≠ musteri_id<br/>veya bulunamadı| D
+        C -->|sahiplik doğrulandı| T[Cevap taslağı]
+        K -->|ürün / fiyat| S["/products/search"] --> T
+        D & T --> O[talepler.json + ozet.html]
+    end
+    subgraph B["FiyatRadar (n8n)"]
+        Z[Her gün 09:00] --> P[Tüm sayfaları çek] --> X[Ürün, fiyat, yorum, link] --> V[Önceki çalışmayla karşılaştır]
+        V --> DT[(Data Table + CSV)] --> E{Değişiklik var mı?}
+        E -->|evet| N[E-posta bildirimi]
+        P & X & DT -.hata.-> H[Hata e-postası + çalışma başarısız]
+    end
+```
 
 | | |
 |---|---|
@@ -12,8 +34,8 @@ Müşteri mesajı otomasyonu (Bölüm A) ve n8n ile günlük laptop fiyat takibi
 ## Depo yapısı
 
 ```
-A-mesaj-otomasyonu/   main.py · talepler.json · ozet.html · testler
-B-n8n/                workflow.json · akis-aciklama.md · ekran görüntüsü · mantık testleri
+A-mesaj-otomasyonu/   main.py (Talep Masası) · talepler.json · ozet.html · testler
+B-n8n/                workflow.json (FiyatRadar) · akis-aciklama.md · ekran görüntüsü · mantık testleri
 promptlar/            yapay zekâ aracına yazılan tüm promptlar (sırasıyla, olduğu gibi)
 TEST-SONUCLARI.md     otomatik ve canlı test sonuçları
 ```
@@ -31,6 +53,8 @@ python3 -m unittest discover -s A-mesaj-otomasyonu/tests -v # 19 test
 
 `--input` ve `--output-dir` ile farklı girdi ve çıktı konumu verilebilir. `ozet.html` tarayıcıda açılır. Sayfada konu filtresi, arama ve "yalnızca devredilenler" seçeneği var.
 
+![Talep Masası özet sayfası](A-mesaj-otomasyonu/ekran-goruntusu-ozet.png)
+
 **B: n8n**
 
 `B-n8n/workflow.json` dosyası n8n'e import edilir. Kurulum adımları [akis-aciklama.md](B-n8n/akis-aciklama.md) içinde: Data Table, SMTP ve alıcı adresi. Akışın kod mantığı n8n olmadan da test edilebilir:
@@ -40,7 +64,7 @@ cd B-n8n && npm ci --ignore-scripts && npm test   # 17 test
 npm run test:live                                  # canlı sitede 20 sayfa / 117 ürün kontrolü
 ```
 
-## A — Müşteri mesajı otomasyonu
+## A — Talep Masası: müşteri mesajı otomasyonu
 
 Mesaj işleme sırası: girdi doğrulama → konu → hassas konu kontrolü → sipariş sorgusu ve sahiplik kontrolü → cevap taslağı → `talepler.json` + HTML özet.
 
@@ -69,7 +93,9 @@ Tasarım kararları:
 - Mesaj 7 reklam/spam. Konusu `diger`, cevap taslağı boş bırakıldı.
 - İçerik, cilt uygunluğu ve hayvan testi gibi sorular için doğrulanmış bir marka kaynağı yok. Bu yüzden iddia üretilmez, müşteriden ürünün tam adı istenir.
 
-## B — n8n fiyat takibi
+## B — FiyatRadar: n8n fiyat takibi
+
+**Kaynak site:** https://webscraper.io/test-sites/e-commerce/static/computers/laptops (20 sayfa, 117 ürün)
 
 **Başlangıç şablonu:** [Track changes of product prices (#837)](https://n8n.io/workflows/837-track-changes-of-product-prices/)
 
@@ -96,7 +122,6 @@ Ayrıntılı kayıt: [promptlar/surec-notu.md](promptlar/surec-notu.md).
 
 ## Bitiremediklerim / sınırlar
 
-- `ozet.html` için ekran görüntüsü alınmadı.
 - Konu ataması kural tabanlı. Farklı yazım biçimleri için daha geniş bir değerlendirme seti ya da bir LLM sınıflandırıcı gerekir.
 - `musteri_id` bu görevde güvenilir girdi olarak kabul edildi. Gerçek WhatsApp/Instagram entegrasyonunda kimlik sunucu tarafında doğrulanmalı.
 - n8n'deki karşılaştırma durumu workflow static data üzerinde tutuluyor. Bu, günde tek çalışma için tasarlandı, eşzamanlı çalıştırma desteklenmiyor. 09:00'daki ilk gerçek zamanlanmış çalışma teslimden sonra gerçekleşecek.
