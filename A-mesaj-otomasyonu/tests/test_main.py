@@ -7,12 +7,19 @@ from unittest.mock import patch
 from urllib.error import HTTPError, URLError
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from main import Api, ApiFailure, classify, order_ids, process, render_summary, validate_messages
+from main import Api, ApiFailure, classify, order_ids, process, render_summary, search_terms, validate_messages
 
 
 class Stub:
-    def __init__(self, cart=None, error=False):
+    def __init__(self, cart=None, error=False, products=()):
         self.value, self.error, self.calls = cart, error, []
+        self.products, self.searches = list(products), []
+
+    def search(self, query):
+        self.searches.append(query)
+        if self.error:
+            raise ApiFailure('API bağlantı/zaman aşımı hatası')
+        return self.products
 
     def cart(self, number):
         self.calls.append(number)
@@ -107,6 +114,34 @@ class MessageTests(unittest.TestCase):
         for data in [None, [{}], [message(), message()], [message(customer=True)], [message('')]]:
             with self.assertRaises(ValueError):
                 validate_messages(data)
+
+    def test_search_bonus_adds_only_matching_beauty_products(self):
+        products = [dict(id=1, title='Vaseline Body Lotion', price=9.99, category='skin-care'),
+                    dict(id=2, title='Ice Cream', price=5.49, category='groceries'),
+                    dict(id=3, title='Red Lipstick', price=12.99, category='beauty')]
+        api = Stub(products=products)
+        r = process(message('Nemlendirici krem ne kadar?'), api)
+        self.assertEqual(r['konu'], 'fiyat')
+        self.assertFalse(r['devret'])
+        self.assertIn('Vaseline Body Lotion (9.99)', r['cevap_taslagi'])
+        self.assertNotIn('Ice Cream', r['cevap_taslagi'])
+        self.assertNotIn('Lipstick', r['cevap_taslagi'])
+        self.assertIn('lotion', api.searches)
+
+    def test_search_no_match_and_outage_keep_safe_draft(self):
+        r = process(message('Retinol serumunuz var mı?'), Stub())
+        self.assertIn('eşleşen kozmetik ürün yok', r['not'])
+        self.assertIn('tam ürün adını', r['cevap_taslagi'])
+        r = process(message('Retinol serumunuz var mı?'), Stub(error=True))
+        self.assertFalse(r['devret'])
+        self.assertIn('yapılamadı', r['not'])
+
+    def test_search_not_used_for_sensitive_or_order(self):
+        for text in ['Serumu kullandım yüzüm yandı', '5 numaralı siparişim ve güneş kremi fiyatı']:
+            api = Stub(self.cart)
+            process(message(text), api)
+            self.assertEqual(api.searches, [])
+        self.assertEqual(search_terms('Tonik 200 ml mi?'), ['toner'])
 
     @patch('main.time.sleep')
     @patch('main.urlopen')

@@ -11,6 +11,7 @@ import ssl
 import time
 import unicodedata
 from urllib.error import HTTPError, URLError
+from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 TOPICS = ('urun-sorusu', 'fiyat', 'siparis-durumu', 'iade-sikayet', 'istenmeyen-etki', 'diger')
@@ -62,24 +63,18 @@ class Api:
             self.context = ssl.create_default_context()
         self.cache = {}
 
-    def cart(self, number):
-        if number in self.cache:
-            return self.cache[number]
-        request = Request(f'https://dummyjson.com/carts/{number}',
-                          headers={'User-Agent': 'NuredermCase/1.0', 'Accept': 'application/json'})
+    def _get(self, url):
+        """JSON döndürür; HTTP 404 için None. Geçici hatalarda en fazla 3 deneme."""
+        request = Request(url, headers={'User-Agent': 'NuredermCase/1.0', 'Accept': 'application/json'})
         for attempt in range(3):
             try:
                 with urlopen(request, timeout=10, context=self.context) as response:
                     data = json.load(response)
                 if not isinstance(data, dict):
                     raise ApiFailure('API yanıtı nesne değil')
-                if re.search(r'cart.*not found', str(data.get('message', '')), re.I):
-                    data = None
-                self.cache[number] = data
                 return data
             except HTTPError as exc:
                 if exc.code == 404:
-                    self.cache[number] = None
                     return None
                 if exc.code not in (429, 500, 502, 503, 504) or attempt == 2:
                     raise ApiFailure(f'API HTTP {exc.code}') from None
@@ -89,6 +84,63 @@ class Api:
             except (ValueError, UnicodeError):
                 raise ApiFailure('API geçersiz JSON döndürdü') from None
             time.sleep(0.5 * (2 ** attempt))
+
+    def cart(self, number):
+        if number not in self.cache:
+            data = self._get(f'https://dummyjson.com/carts/{number}')
+            if data is not None and re.search(r'cart.*not found', str(data.get('message', '')), re.I):
+                data = None
+            self.cache[number] = data
+        return self.cache[number]
+
+    def search(self, query):
+        """Bonus: /products/search. Yalnızca ürün listesini döndürür."""
+        key = ('search', query)
+        if key not in self.cache:
+            data = self._get(f'https://dummyjson.com/products/search?q={quote(query)}&limit=10'
+                             '&select=title,price,category')
+            products = (data or {}).get('products')
+            self.cache[key] = products if isinstance(products, list) else []
+        return self.cache[key]
+
+
+# Bonus arama: Türkçe ürün terimi -> test mağazasının İngilizce arama sözcükleri.
+SEARCH_TERMS = [
+    (r'gunes kremi|spf|sunscreen', ['sunscreen']),
+    (r'nemlendirici|moistur', ['moisturizer', 'lotion']),
+    (r'retinol', ['retinol']),
+    (r'c vitamini|vitamin c', ['vitamin c']),
+    (r'serum', ['serum']),
+    (r'tonik|toner', ['toner']),
+    (r'krem|cream', ['cream']),
+]
+BEAUTY_CATEGORIES = {'beauty', 'skin-care', 'fragrances'}
+
+
+def search_terms(text):
+    t = normalize(text)
+    terms = []
+    for pattern, queries in SEARCH_TERMS:
+        if re.search(pattern, t):
+            terms += [q for q in queries if q not in terms]
+    return terms
+
+
+def product_suggestions(text, api, limit=3):
+    """Başlığında arama sözcüğü geçen kozmetik kategorisindeki ürünler (ör. 'Ice Cream' elenir)."""
+    terms = search_terms(text)
+    found, seen = [], set()
+    for term in terms:
+        for p in api.search(term):
+            if not isinstance(p, dict) or not isinstance(p.get('title'), str) or p.get('id') in seen:
+                continue
+            if p.get('category') not in BEAUTY_CATEGORIES or term.lower() not in p['title'].lower():
+                continue
+            if isinstance(p.get('price'), bool) or not isinstance(p.get('price'), (int, float)):
+                continue
+            seen.add(p.get('id'))
+            found.append(p)
+    return terms, found[:limit]
 
 
 def process(message, api):
@@ -151,12 +203,26 @@ def process(message, api):
             reply += ' Ürün fiyatı sorunuz için ürünün tam adını paylaşabilirsiniz.'
             note += ' Birden çok niyet: sipariş önceliklendirildi, fiyat sorusu korundu.'
         return finish(reply, note)
-    if topic == 'fiyat':
-        return finish('Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?',
-                      'Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı.')
-    if topic == 'urun-sorusu':
-        return finish('Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?',
-                      'Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi.')
+    if topic in ('fiyat', 'urun-sorusu'):
+        if topic == 'fiyat':
+            reply = 'Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?'
+            note = 'Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı.'
+        else:
+            reply = 'Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?'
+            note = 'Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi.'
+        try:
+            terms, found = product_suggestions(text, api)
+        except ApiFailure as exc:
+            return finish(reply, f'{note} Bonus ürün araması yapılamadı: {exc}.')
+        if not terms:
+            return finish(reply, f'{note} Bonus arama: mesajda aranacak ürün terimi yok.')
+        if found:
+            listing = '; '.join(f"{p['title']} ({p['price']:.2f})" for p in found)
+            reply += f' Test mağazasında eşleşen ürünler: {listing}. Fiyatlar test API değeridir.'
+            note += f" Bonus arama ({', '.join(terms)}): {len(found)} ürün eklendi."
+        else:
+            note += f" Bonus arama ({', '.join(terms)}): test mağazasında eşleşen kozmetik ürün yok."
+        return finish(reply, note)
     return finish('', 'Kapsam dışı veya reklam mesajı; otomatik cevap taslağı üretilmedi.')
 
 

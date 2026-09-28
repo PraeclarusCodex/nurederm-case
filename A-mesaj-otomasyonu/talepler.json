@@ -60,21 +60,21 @@
     "konu": "urun-sorusu",
     "devret": false,
     "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
-    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi. Bonus arama (retinol, serum): test mağazasında eşleşen kozmetik ürün yok."
   },
   {
     "id": 10,
     "konu": "fiyat",
     "devret": false,
-    "cevap_taslagi": "Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?",
-    "not": "Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı."
+    "cevap_taslagi": "Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız? Test mağazasında eşleşen ürünler: Vaseline Men Body and Face Lotion (9.99). Fiyatlar test API değeridir.",
+    "not": "Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı. Bonus arama (moisturizer, lotion, cream): 1 ürün eklendi."
   },
   {
     "id": 11,
     "konu": "urun-sorusu",
     "devret": false,
     "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
-    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi. Bonus arama (vitamin c, serum): test mağazasında eşleşen kozmetik ürün yok."
   },
   {
     "id": 12,
@@ -88,20 +88,20 @@
     "konu": "urun-sorusu",
     "devret": false,
     "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
-    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi. Bonus arama (toner): test mağazasında eşleşen kozmetik ürün yok."
   },
   {
     "id": 14,
     "konu": "fiyat",
     "devret": false,
     "cevap_taslagi": "Güncel fiyat veya kampanyayı doğrulayabilmemiz için ilgilendiğiniz ürünün tam adını paylaşır mısınız?",
-    "not": "Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı."
+    "not": "Doğrulanmış marka fiyat/kampanya kaynağı yok; fiyat uydurulmadı. Bonus arama: mesajda aranacak ürün terimi yok."
   },
   {
     "id": 15,
     "konu": "urun-sorusu",
     "devret": false,
     "cevap_taslagi": "Ürün bilgisini kontrol edebilmemiz için tam ürün adını veya ürün bağlantısını paylaşır mısınız?",
-    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi."
+    "not": "Doğrulanmış marka kataloğu yok; cilt uygunluğu, içerik veya hayvan testi iddiası üretilmedi. Bonus arama: mesajda aranacak ürün terimi yok."
   }
 ]
